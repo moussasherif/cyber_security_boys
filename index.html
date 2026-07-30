@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberOps Associate 1.0 — Final Exam Study Sheet</title>
+<!--
+=====================================================================
+SOURCE-MATERIAL NOTES (nothing here is invented; all items come from the
+supplied PDF: "CyberOps Associate (version 1.0) - Course Final Exam Answers")
+
+1. The bank is numbered 1-192 in the source, but item 57 is absent: the PDF
+   jumps from the answer image for Q56 straight to Q58. No Q57 exists here.
+   Total items reproduced: 191.
+
+2. Some option text was clipped by page breaks / ad overlays in the PDF.
+   Where the CORRECT option itself was clipped, it is restored from the
+   source's own Explanation text and marked with a "source clipped" note:
+   Q8, Q16, Q25, Q97, Q101, Q119, Q135.
+
+3. Two question stems were lost to page breaks (only options + explanation
+   survived): Q95 and Q114. Both are labelled as reconstructed stems.
+
+4. VERIFIED CORRECTIONS to the provided answer key (marked in-page with a
+   red "Provided key" note):
+   - Q51  key said HKEY_USERS for "all configuration settings for hardware
+          and software ... for all users". That is HKEY_LOCAL_MACHINE.
+   - Q83  key said "provides data encryption" as a service of digital
+          signatures. Digital signatures do not encrypt the message.
+   Items flagged as ambiguous / dated rather than wrong: Q37, Q78, Q146.
+
+5. Exhibits (topologies, Sguil screenshots, drag-and-drop panels) could not
+   be embedded as images, so each is transcribed in full as text inside an
+   "EXHIBIT" block so no scope is lost.
+=====================================================================
+-->
+<style>
+:root{
+  --bg:#ffffff; --fg:#16191d; --muted:#5c646e; --line:#e2e6ea; --card:#ffffff;
+  --chip:#f2f4f7; --chipfg:#333a42; --accent:#0b5fa5; --ok:#0d7a3d;
+  --okbg:#e8f6ed; --okline:#9fd8b4; --warn:#a3341c; --warnbg:#fdefeb;
+  --mark:#ffe9a8; --code:#f4f5f7;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14171a; --fg:#e6e8ea; --muted:#9aa4ae; --line:#2a3036; --card:#191d21;
+    --chip:#22282e; --chipfg:#d3d8dd; --accent:#68b3f0; --ok:#67d094;
+    --okbg:#17311f; --okline:#2f6b45; --warn:#ff9d85; --warnbg:#331a14;
+    --mark:#6b5310; --code:#20252a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171a; --fg:#e6e8ea; --muted:#9aa4ae; --line:#2a3036; --card:#191d21;
+  --chip:#22282e; --chipfg:#d3d8dd; --accent:#68b3f0; --ok:#67d094;
+  --okbg:#17311f; --okline:#2f6b45; --warn:#ff9d85; --warnbg:#331a14;
+  --mark:#6b5310; --code:#20252a;
+}
+:root[data-theme="light"]{
+  --bg:#ffffff; --fg:#16191d; --muted:#5c646e; --line:#e2e6ea; --card:#ffffff;
+  --chip:#f2f4f7; --chipfg:#333a42; --accent:#0b5fa5; --ok:#0d7a3d;
+  --okbg:#e8f6ed; --okline:#9fd8b4; --warn:#a3341c; --warnbg:#fdefeb;
+  --mark:#ffe9a8; --code:#f4f5f7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px 64px}
+h1{font-size:1.5rem;margin:24px 0 4px;line-height:1.3}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:2px}
+code,kbd{background:var(--code);padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em}
+
+/* ---- sticky control bar ---- */
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0 8px;margin-bottom:8px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#q{flex:1 1 260px;min-width:0;padding:10px 12px;font-size:1rem;color:var(--fg);
+  background:var(--card);border:1px solid var(--line);border-radius:8px}
+#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+button{font:inherit;font-size:.85rem;color:var(--chipfg);background:var(--chip);
+  border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.count{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.hint{color:var(--muted);font-size:.78rem;margin-top:6px}
+
+/* ---- table of contents ---- */
+details.toc{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:12px 0 24px;background:var(--card)}
+details.toc summary{cursor:pointer;font-weight:600}
+details.toc ol{margin:10px 0 4px;padding-left:22px;columns:2;column-gap:28px}
+@media (max-width:640px){details.toc ol{columns:1}}
+details.toc a{color:var(--accent);text-decoration:none}
+details.toc a:hover{text-decoration:underline}
+details.toc .n{color:var(--muted)}
+
+/* ---- sections + cards ---- */
+h2.topic{font-size:1.1rem;margin:34px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line);scroll-margin-top:120px}
+h2.topic .n{color:var(--muted);font-weight:400;font-size:.85rem}
+.card{border:1px solid var(--line);border-left:3px solid var(--line);border-radius:8px;
+  background:var(--card);padding:14px 16px;margin:0 0 14px}
+.qhead{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.num{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.tag{font-size:.7rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.meta{font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.qtext{margin:8px 0 10px;font-weight:600}
+ul.opts{list-style:none;margin:0;padding:0}
+ul.opts li{position:relative;padding:5px 8px 5px 26px;margin:2px 0;border-radius:6px;border:1px solid transparent}
+ul.opts li::before{content:"○";position:absolute;left:6px;color:var(--muted)}
+ul.opts li.correct{background:var(--okbg);border-color:var(--okline);font-weight:600}
+ul.opts li.correct::before{content:"✅";left:4px}
+.why{margin:10px 0 0;padding:9px 12px;border-left:3px solid var(--accent);
+  background:var(--chip);border-radius:0 6px 6px 0;font-size:.93rem}
+.why b{color:var(--accent)}
+.note{margin:8px 0 0;padding:8px 12px;border-left:3px solid var(--warn);background:var(--warnbg);
+  color:var(--warn);border-radius:0 6px 6px 0;font-size:.88rem}
+.exhibit{margin:8px 0;padding:9px 12px;border:1px dashed var(--line);border-radius:6px;
+  background:var(--chip);font-size:.86rem;white-space:pre-wrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-x:auto}
+.reveal{margin-top:10px}
+.none{color:var(--muted);padding:24px 0}
+
+/* ---- self-test mode ---- */
+body.hideans .card:not(.revealed) ul.opts li.correct{background:transparent;border-color:transparent;font-weight:400}
+body.hideans .card:not(.revealed) ul.opts li.correct::before{content:"○";left:6px;color:var(--muted)}
+body.hideans .card:not(.revealed) .why,
+body.hideans .card:not(.revealed) .note{display:none}
+body:not(.hideans) .reveal{display:none}
+
+@media print{
+  .bar,.reveal,details.toc summary{display:none!important}
+  body{font-size:11pt}
+  .card{page-break-inside:avoid;border-color:#bbb}
+  ul.opts li.correct{background:#eee!important;border-color:#999!important}
+  details.toc[open] ol{columns:2}
+  body.hideans .card .why,body.hideans .card .note{display:block!important}
+  body.hideans .card ul.opts li.correct{background:#eee!important;font-weight:600!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>CyberOps Associate (v1.0) — Course Final Exam Study Sheet</h1>
+  <p class="sub">191 verified items, grouped by topic. Answers independently checked against Cisco/networking fact — corrections to the supplied key are flagged in red.</p>
+
+  <div class="bar">
+    <div class="row">
+      <input id="q" type="search" placeholder="Search questions, options, explanations, topics…" autocomplete="off" spellcheck="false">
+      <span class="count" id="count"></span>
+      <button id="toggleAns" type="button">Hide answers</button>
+      <button id="expand" type="button">Open index</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="hint">Multi-word search matches all terms in any order · <kbd>Esc</kbd> clears · matches are highlighted</div>
+  </div>
+
+  <details class="toc" id="toc" open>
+    <summary>Topic index</summary>
+    <ol id="tocList"></ol>
+  </details>
+
+  <div id="out"></div>
+</div>
+
+<script>
+/* ===== topic labels, in study order: fundamentals -> media/switching ->
+   addressing -> routing -> services -> security -> operations ===== */
+const TOPICS = {
+  OSI:    "OSI / TCP-IP Model, Encapsulation & Protocols",
+  ETH:    "Ethernet, Switching, MAC Tables & ARP",
+  IPADDR: "IP Addressing & Subnetting",
+  IPV6:   "IPv6, ICMP & ICMPv6",
+  ROUTE:  "Routing, Routing Tables & Default Gateway",
+  WLAN:   "Wireless, VLANs & Wireless Access",
+  TRANS:  "TCP / UDP & the Transport Layer",
+  SVC:    "Network Services — DHCP, DNS, HTTP, Email, NAT",
+  MGMT:   "Network Management — Syslog, NTP, SNMP, NetFlow",
+  HOST:   "Windows & Linux Endpoints",
+  SEC:    "Device Security, ACLs, AAA, Firewalls & VPN",
+  CRYPTO: "Cryptography, Hashing & PKI",
+  ATT:    "Threats, Attacks, Malware & Attack Tools",
+  NSM:    "Network Security Monitoring & Security Onion",
+  ALERT:  "Alert Evaluation & Security Data Analysis",
+  GOV:    "Risk, Governance & Vulnerability Management",
+  IR:     "Incident Response, Kill Chain & Forensics",
+  SOC:    "SOC Operations & Threat Intelligence"
+};
+const ORDER = ["OSI","ETH","IPADDR","IPV6","ROUTE","WLAN","TRANS","SVC","MGMT","HOST","SEC","CRYPTO","ATT","NSM","ALERT","GOV","IR","SOC"];
+
+/* ===== data: [num, topic, questionHTML, options[], why, note|0, meta|0]
+   an option string ending in "*" is a correct answer ===== */
+const DATA = [
+[1,"ATT","Which two statements are characteristics of a virus? (Choose two.)",
+ ["A virus typically requires end-user activation.*",
+  "A virus can be dormant and then activate at a specific time or date.*",
+  "A virus replicates itself by independently exploiting vulnerabilities in networks.",
+  "A virus has an enabling vulnerability, a propagation mechanism, and a payload.",
+  "A virus provides the attacker with sensitive data, such as passwords"],
+ "A virus is malicious code attached to a host file that needs a user action to run (open a file, open a page, power on) and may lie dormant until a trigger date. Self-propagating code that needs no user is a worm; the enabling-vulnerability / propagation / payload triad describes worms.",0,"Choose two"],
+
+[2,"ATT","What is a characteristic of a Trojan horse as it relates to network security?",
+ ["Too much information is destined for a particular memory block, causing additional memory areas to be affected.",
+  "Extreme quantities of data are sent to a particular network device interface.",
+  "An electronic dictionary is used to obtain a password to be used to infiltrate a key network device.",
+  "Malware is contained in a seemingly legitimate executable program.*"],
+ "A Trojan hides malicious operations inside software the user believes is legitimate. Classify by mechanism: memory overrun = buffer overflow, flooding an interface = DoS, dictionary guessing = password attack.",0,0],
+
+[3,"ATT","What technique is used in social engineering attacks?",
+ ["sending junk email","buffer overflow","phishing*","man-in-the-middle"],
+ "Social engineering attacks the human, not the software: the attacker impersonates a trusted source so the victim acts. Phishing is the email/message form of that; buffer overflow and MiTM are technical attacks.",0,0],
+
+[4,"WLAN","What is a purpose of implementing VLANs on a network?",
+ ["They can separate user traffic.*",
+  "They prevent Layer 2 loops.",
+  "They eliminate network collisions.",
+  "They allow switches to forward Layer 3 packets without a router."],
+ "A VLAN is a logical broadcast domain: it segments Layer 2 traffic by function, team or application regardless of physical location. Loop prevention is STP, collision elimination is full-duplex switching, and inter-VLAN traffic still needs a Layer 3 device.",0,0],
+
+[5,"ETH","Refer to the exhibit. A cybersecurity analyst is viewing packets forwarded by switch S2. What addresses will identify frames containing data sent from PCA to PCB?",
+ ["Src IP: 192.168.2.1 / Src MAC: 00-60-0F-B1-33-33 / Dst IP: 192.168.2.101 / Dst MAC: 08-CB-8A-5C-BB-BB",
+  "Src IP: 192.168.1.212 / Src MAC: 01-90-C0-E4-AA-AA / Dst IP: 192.168.2.101 / Dst MAC: 08-CB-8A-5C-BB-BB",
+  "Src IP: 192.168.1.212 / Src MAC: 00-60-0F-B1-33-33 / Dst IP: 192.168.2.101 / Dst MAC: 08-CB-8A-5C-BB-BB*",
+  "Src IP: 192.168.1.212 / Src MAC: 00-60-0F-B1-33-33 / Dst IP: 192.168.2.101 / Dst MAC: 00-D0-D3-BE-00-00"],
+ "IP addresses are end-to-end and are never changed by routers; MAC addresses are hop-by-hop and are rewritten at every router. On the final segment the source MAC is the last router exit interface and the destination MAC is the destination host.",
+ 0,"Exhibit",
+ "EXHIBIT (transcribed)\nPCA 192.168.1.212 / 01-90-C0-E4-AA-AA\n  -- S1 -- R1  LAN 192.168.1.1 / 00-D0-D3-BE-00-00   WAN 10.0.0.1 / 00-99-1B-11-11\n            ||\n         R2  WAN 10.0.0.2 / 00-B0-AA-56-22-22        LAN 192.168.2.1 / 00-60-0F-B1-33-33\n  -- S2 -- PCB 192.168.2.101 / 08-CB-8A-5C-BB-BB\nCapture point: the S2 segment."],
+
+[6,"NSM","A cybersecurity analyst needs to collect alert data. What are three detection tools to perform this task in the Security Onion architecture? (Choose three.)",
+ ["CapME*","Wazuh*","Kibana","Zeek*","Sguil","Wireshark"],
+ "In Security Onion the detection tier generates alerts (CapME, Snort, Zeek/Bro, OSSEC, Wazuh, Suricata) while the analysis tier only presents them (Sguil, Squert, Kibana, Wireshark). Decide which tier a tool sits in.",0,"Choose three"],
+
+[7,"NSM","Match the Security Onion tool with the description.",
+ ["network-based intrusion detection system &rarr; Snort*",
+  "packet capture application &rarr; Wireshark*",
+  "host-based intrusion detection system &rarr; OSSEC*",
+  "high-level cybersecurity analysis console &rarr; Sguil*"],
+ "Classify NSM tools by scope: network sensor (Snort/Suricata/Zeek), host agent (OSSEC/Wazuh), full packet capture (Wireshark/tcpdump), analyst console (Sguil/Squert/Kibana).",0,"Matching"],
+
+[8,"GOV","In network security assessments, which type of test is used to evaluate the risk posed by vulnerabilities to a specific organization including assessment of the likelihood of attacks and the impact of successful exploits on the organization?",
+ ["port scanning","risk analysis*","penetration testing","vulnerability assessment"],
+ "Scanning finds open ports, a vulnerability assessment finds weaknesses, a penetration test proves exploitability. Only risk analysis multiplies likelihood by business impact to produce risk.",
+ "&#9888; Source clipped &mdash; the correct option (<i>risk analysis</i>) was cut off by a page break in the PDF and is restored from the source explanation (Topic 23.1.4).",0],
+
+[9,"GOV","Match the server profile element to the description. (Not all options are used.)",
+ ["the parameters defining user access and behavior &rarr; user accounts*",
+  "the TCP and UDP daemons and ports that are allowed to be open on the server &rarr; listening ports*",
+  "the tasks, processes, and applications that are permitted to run on the server &rarr; software environment*",
+  "the definitions of the type of service that an application is allowed to run on a given host &rarr; service accounts*",
+  "the number of times the server is powered on and off &rarr; (not used)"],
+ "A server profile is a baseline of normal for one host: listening ports, user accounts, service accounts and software environment. Anything outside the profile is an anomaly worth alerting on.",0,"Matching"],
+
+[10,"GOV","In addressing an identified risk, which strategy aims to shift some of the risk to other parties?",
+ ["risk avoidance","risk sharing*","risk retention","risk reduction"],
+ "Four responses to risk: avoid (stop the activity), reduce (mitigate the vulnerability), share or transfer (insurance, outsourcing), retain (accept it). The verb in the stem maps to exactly one of the four.",0,0],
+
+[11,"NSM","What is a network tap?",
+ ["a technology used to provide real-time reporting and long-term analysis of security events",
+  "a Cisco technology that provides statistics on packets flowing through a router or multilayer switch",
+  "a feature supported on Cisco switches that enables the switch to copy frames and forward them to an analysis device",
+  "a passive device that forwards all traffic and physical layer errors to an analysis device*"],
+ "A tap is a passive inline splitter, so it passes everything including Layer 1 errors and keeps forwarding even if it loses power. A switch-based copy (SPAN) is active and discards physical-layer errors.",0,0],
+
+[12,"NSM","Match the monitoring tool to the definition.",
+ ["presents real-time reporting and long-term analysis of security events &rarr; SIEM*",
+  "provides statistics on packets flowing through a Cisco router or multilayer switch &rarr; NetFlow*",
+  "captures packets and saves them in a PCAP file &rarr; Wireshark*",
+  "retrieves information on the operation of network devices &rarr; SNMP*"],
+ "Separate tools by the data they produce: full packets (Wireshark/tcpdump), flow metadata (NetFlow), device operational state (SNMP), correlated events and reports (SIEM).",0,"Matching"],
+
+[13,"SOC","If a SOC has a goal of 99.999% uptime, how many minutes of downtime a year would be considered within its goal?",
+ ["Approximately 5 minutes per year.*","Approximately 10 minutes per year","Approximately 20 minutes per year.","Approximately 30 minutes per year."],
+ "Availability targets are arithmetic: 365 x 24 x 60 = 525,600 min/yr, so five nines allows 525,600 x 0.00001 = 5.26 min. Every extra nine divides the allowance by ten (four nines = 53 min).",0,0],
+
+[14,"SVC","The HTTP server has responded to a client request with a 200 status code. What does this status code indicate?",
+ ["The request is understood by the server, but the resource will not be fulfilled.",
+  "The request was completed successfully.*",
+  "The server could not find the requested resource, possibly because of an incorrect URL.",
+  "The request has been accepted for processing, but processing is not completed."],
+ "HTTP status classes: 1xx informational, 2xx success, 3xx redirection, 4xx client error (400/403/404), 5xx server error. Read the first digit before the exact number.",0,0],
+
+[15,"SVC","What is an advantage for small organizations of adopting IMAP instead of POP?",
+ ["POP only allows the client to store messages in a centralized way, while IMAP allows distributed storage.",
+  "IMAP sends and retrieves email, but POP only retrieves email.",
+  "When the user connects to a POP server, copies of the messages are kept in the mail server for a short time, but IMAP keeps them for a long time.",
+  "Messages are kept in the mail servers until they are manually deleted from the email client.*"],
+ "POP downloads and normally removes mail from the server; IMAP keeps the authoritative copy on the server so many clients stay in sync until the user deletes it. Neither retrieval protocol sends mail &mdash; SMTP does.",0,0],
+
+[16,"ATT","What debugging security tool can be used by black hats to reverse engineer binary files when writing exploits?",
+ ["WinDbg*","Firesheep","Skipfish","AIDE"],
+ "Tool families: debuggers and disassemblers reverse binaries (WinDbg, IDA, GDB), sniffers hijack sessions (Firesheep), web scanners crawl applications (Skipfish), integrity checkers baseline files (AIDE).",
+ "&#9888; Source clipped &mdash; the correct option sat behind an ad block in the PDF; restored from the Cisco item for Topic 13.2.2.",0],
+
+[17,"ATT","Match the attack tools with the description. (Not all options are used.)",
+ ["This is used for password cracking by either removing the original password, after bypassing the data encryption, or by outright discovery of the password. &rarr; RainbowCrack*",
+  "This is a packet crafting tool used to probe and test the robustness of a firewall by using specially crafted, forged packets. &rarr; Yersinia*",
+  "This is a network scanning tool used to probe network devices, servers, and hosts for open TCP or UDP ports. &rarr; Nmap*",
+  "This is a wireless hacking tool used to detect security vulnerabilities in wireless networks. &rarr; (not used)"],
+ "Classify offensive tools by function: password crackers, packet crafters, port scanners, sniffers, wireless tools, forensic tools. The description almost always names the function outright.",0,"Matching"],
+
+[18,"ETH","What are two features of ARP? (Choose two.)",
+ ["When a host is encapsulating a packet into a frame, it refers to the MAC address table to determine the mapping of IP addresses to MAC addresses.",
+  "If a host is ready to send a packet to a local destination address of the destination, it generates an ARP broadcast.*",
+  "If a device receiving an ARP request has the destination IPv4 address, it responds with an ARP reply.*",
+  "If no device responds to the ARP request, then the originating node will broadcast the data packet to all devices on the network segment.",
+  "An ARP request is sent to all devices on the Ethernet LAN and contains the IP address of the destination host and the multicast MAC address."],
+ "ARP resolves a known IPv4 address to an unknown MAC. The sender checks its ARP table (not the switch MAC table), broadcasts to FFFF.FFFF.FFFF when there is no entry, and only the owner of that IP answers, by unicast. No reply means the frame cannot be built and the packet is discarded.",0,"Choose two"],
+
+[19,"ETH","What is a property of the ARP table on a device?",
+ ["Entries in an ARP table are time-stamped and are purged after the timeout expires.*",
+  "Every operating system uses the same timer to remove old entries from the ARP cache.",
+  "Static IP-to-MAC address entries are removed dynamically from the ARP table.",
+  "Windows operating systems store ARP cache entries for 3 minutes."],
+ "Dynamic ARP entries are cached with a timestamp and aged out so stale mappings self-heal. The timer is OS-dependent, and statically configured entries never age out.",0,0],
+
+[20,"ATT","What is the purpose of Tor?",
+ ["to allow users to browse the Internet anonymously*",
+  "to securely connect to a remote network over an insecure link such as an Internet connection",
+  "to donate processor cycles to distributed computational tasks in a processor sharing P2P network",
+  "to inspect incoming traffic and look for any that violates a rule or matches the signature of a known exploit"],
+ "Tor layers encryption across volunteer relays so no single hop knows both source and destination: it provides anonymity, not confidentiality to a chosen endpoint (a VPN) and not inspection (an IDS/IPS).",0,0],
+
+[21,"ATT","Which two network protocols can be used by a threat actor to exfiltrate data in traffic that is disguised as normal network traffic? (Choose two.)",
+ ["NTP","DNS*","HTTP*","syslog","SMTP"],
+ "Exfiltration hides in protocols that are always permitted outbound and rarely inspected &mdash; DNS lookups and HTTP/HTTPS requests. Encode the stolen data in subdomains or web requests and it looks like ordinary client traffic.",0,"Choose two"],
+
+[22,"NSM","What is a key difference between the data captured by NetFlow and data captured by Wireshark?",
+ ["NetFlow data shows network flow contents whereas Wireshark data shows network flow statistics.",
+  "NetFlow data is analyzed by tcpdump whereas Wireshark data is analyzed by nfdump.",
+  "NetFlow provides transaction data whereas Wireshark provides session data.",
+  "NetFlow collects metadata from a network flow whereas Wireshark captures full data packets.*"],
+ "Flow records are metadata about conversations (5-tuple, counters, timestamps) and scale cheaply; full packet capture keeps the payload and costs far more storage. The distinction is metadata versus content.",0,0],
+
+[23,"NSM","Which tool captures full data packets with a command-line interface only?",
+ ["nfdump","Wireshark","NBAR2","tcpdump*"],
+ "tcpdump is the CLI packet analyzer and Wireshark is the GUI equivalent. nfdump reads NetFlow records and NBAR2 classifies applications, so neither performs full capture.",0,0],
+
+[24,"SEC","Which method can be used to harden a device?",
+ ["maintain use of the same passwords","allow default services to remain enabled","allow USB auto-detection",
+  "use SSH and disable the root account access over SSH*"],
+ "Hardening removes attack surface and default trust: minimize packages, disable unused services and USB autorun, patch, enforce strong rotating passwords, manage over an encrypted channel and never expose root directly.",0,0],
+
+[25,"HOST","In a Linux operating system, which component interprets user commands and attempts to execute them?",
+ ["GUI","daemon","kernel","shell*"],
+ "Layered model: hardware &rarr; kernel (manages hardware and resources) &rarr; shell (interprets and runs commands) &rarr; user or GUI. Daemons are background services, not interpreters.",
+ "&#9888; Source clipped &mdash; the correct option was cut by a page break in the PDF; restored from the Cisco item for Topic 4.2.",0],
+
+[26,"SEC","A network administrator is configuring an AAA server to manage RADIUS authentication. Which two features are included in RADIUS authentication? (Choose two.)",
+ ["encryption for all communication","encryption for only the data",
+  "single process for authentication and authorization*","separate processes for authentication and authorization",
+  "hidden passwords during transmission*"],
+ "RADIUS uses UDP, merges authentication with authorization, encrypts only the password and supports 802.1X/SIP. TACACS+ uses TCP, separates all three A's and encrypts the whole body. That contrast answers every RADIUS-versus-TACACS+ item.",0,"Choose two"],
+
+[27,"ATT","What is privilege escalation?",
+ ["Vulnerabilities in systems are exploited to grant higher levels of privilege than someone or some process should have.*",
+  "Someone is given rights because she or he has received a promotion.",
+  "A security problem occurs when high ranking corporate officials demand rights to systems or files that they should not have."],
+ "Privilege escalation is a technical exploit that raises the attacker rights beyond what was granted. The key words are exploited vulnerability, not an administrative decision.",0,0],
+
+[28,"CRYPTO","What two assurances does digital signing provide about code that is downloaded from the Internet? (Choose two.)",
+ ["The code contains no viruses.",
+  "The code has not been modified since it left the software publisher.*",
+  "The code is authentic and is actually sourced by the publisher.*",
+  "The code contains no errors.",
+  "The code was encrypted with both a private and public key."],
+ "A signature proves origin (authenticity) and that the bytes are unchanged (integrity), and gives non-repudiation of publishing. It says nothing about whether the code is safe, correct or malware-free.",0,"Choose two"],
+
+[29,"CRYPTO","An IT enterprise is recommending the use of PKI applications to securely exchange information between the employees. In which two cases might an organization use PKI applications to securely exchange information between users? (Choose two.)",
+ ["HTTPS web service*","802.1x authentication*","local NTP server","FTP transfers","file and directory access permission"],
+ "PKI applies wherever a certificate authenticates an identity or bootstraps a session key: SSL/TLS and HTTPS, IPsec VPNs, 802.1X, S/MIME, code signing, EFS, smart cards. Plain NTP, plain FTP and filesystem permissions use no certificates.",0,"Choose two"],
+
+[30,"CRYPTO","Which measure can a security analyst take to perform effective security monitoring against network traffic encrypted by SSL technology?",
+ ["Use a Syslog server to capture network traffic.","Deploy a Cisco SSL Appliance.*",
+  "Require remote access connections through IPsec VPN.","Deploy a Cisco ASA."],
+ "You cannot inspect what you cannot read: monitoring encrypted traffic needs a device that terminates and decrypts TLS and hands the cleartext to the IPS. Adding more encryption (a VPN) reduces visibility further.",0,0],
+
+[31,"SEC","An administrator is trying to develop a BYOD security policy for employees that are bringing a wide range of devices to connect to the company network. Which three objectives must the BYOD security policy address? (Choose three.)",
+ ["All devices must be insured against liability if used to compromise the corporate network.",
+  "All devices must have open authentication with the corporate network.",
+  "Rights and activities permitted on the corporate network must be defined.*",
+  "Safeguards must be put in place for any personal device being compromised.*",
+  "The level of access of employees when connecting to the corporate network must be defined.*",
+  "All devices should be allowed to attach to the corporate network flawlessly."],
+ "A BYOD policy answers three questions: what may be done on the network, how much access each user gets, and what protects the network if a personal device is lost or compromised. Open authentication and unconditional access are the opposite of policy.",0,"Choose three"],
+
+[32,"SEC","Match the security policy with the description. (Not all options are used.)",
+ ["identifies network applications and uses that are acceptable to the organization &rarr; acceptable use policy (AUP)*",
+  "specifies authorized persons that can have access to network resources and identity verification procedures &rarr; identification and authentication policy*",
+  "specifies network device operating systems and end user application update procedures &rarr; network maintenance policy*",
+  "identifies how remote users can access a network and what is accessible via remote connectivity &rarr; remote access policy*",
+  "ensures that passwords meet minimum requirements and are changed regularly &rarr; (not used &mdash; password policy)"],
+ "Map each policy to the question it answers: what may I do (AUP), who am I (identification and authentication), how do I get in from outside (remote access), how are systems patched (maintenance), how strong are credentials (password).",0,"Matching"],
+
+[33,"ATT","Match the attack to the definition. (Not all options are used.)",
+ ["attacker sends multiple packets that consume server resources &rarr; resource utilization attack*",
+  "attacker sends falsified information to redirect users to malicious sites &rarr; ARP cache poisoning*",
+  "attacker uses open resolvers to increase the volume of attacks and mask the true source of the attack &rarr; amplification and reflection*",
+  "domain generation &rarr; (not used)"],
+ "Group these attacks by effect: falsified mappings redirect victims (poisoning), open resolvers multiply and hide traffic (amplification and reflection), floods exhaust the server (resource utilization), algorithmically generated names evade blocklists (domain generation).",0,"Matching"],
+
+[34,"ATT","What type of attack targets an SQL database using the input field of a user?",
+ ["XML injection","buffer overflow","Cross-site scripting","SQL injection*"],
+ "Injection means untrusted input reaching an interpreter. If the interpreter is the database it is SQL injection; if the victim is another user browser it is XSS; if it is a memory copy it is a buffer overflow.",0,0],
+
+[35,"ETH","What are two characteristics of Ethernet MAC addresses? (Choose two.)",
+ ["MAC addresses use a flexible hierarchical structure.",
+  "They are expressed as 12 hexadecimal digits.*",
+  "They are globally unique.*",
+  "They are routable on the Internet.",
+  "MAC addresses must be unique for both Ethernet and serial interfaces on a device."],
+ "A MAC address is 48 bits or 12 hex digits, flat rather than hierarchical so it cannot be routed, and globally unique by design because the first 24 bits are the vendor OUI. Serial interfaces have no MAC address.",0,"Choose two"],
+
+[36,"OSI","A user calls to report that a PC cannot access the internet. The network technician asks the user to issue the command <code>ping 127.0.0.1</code> in a command prompt window. The user reports that the result is four positive replies. What conclusion can be drawn based on this connectivity test?",
+ ["The IP address obtained from the DHCP server is correct.",
+  "The PC can access the network. The problem exists beyond the local network.",
+  "The PC can access the Internet. However, the web browser may not work.",
+  "The TCP/IP implementation is functional.*"],
+ "127.0.0.1 is the loopback, so the packet never reaches the media and a reply proves only that the local TCP/IP stack works. It says nothing about cabling, addressing or remote reachability.",0,0],
+
+[37,"ATT","What characterizes a threat actor?",
+ ["They are all highly-skilled individuals.",
+  "They always use advanced tools to launch attacks.",
+  "They always try to cause some harm to an individual or organization.*",
+  "They all belong to organized crime."],
+ "A threat actor is defined by intent and impact, not by skill, tooling or affiliation: script kiddies, insiders, hacktivists and state actors are all threat actors.",
+ "&#9888; Loosely worded item: <i>always</i> is too absolute (unintentional insiders cause harm without intent), but of the four options only this one states a defining trait rather than a stereotype.",0],
+
+[38,"ATT","A computer is presenting a user with a screen requesting payment before the user data is allowed to be accessed by the same user. What type of malware is this?",
+ ["a type of logic bomb","a type of virus","a type of worm","a type of ransomware*"],
+ "Identify malware by payload behaviour: denying access to data until payment is ransomware. Logic bombs fire on a condition, worms self-propagate, viruses need a host file.",0,0],
+
+[39,"IPV6","Which ICMPv6 message type provides network addressing information to hosts that use SLAAC?",
+ ["router solicitation","neighbor advertisement","neighbor solicitation","router advertisement*"],
+ "In Neighbor Discovery, RS/RA handle router and prefix discovery while NS/NA handle address resolution and duplicate detection. A SLAAC host learns its prefix from the Router Advertisement.",0,0],
+
+[40,"NSM","Which tool included in the Security Onion is a series of software plugins that send different types of data to the Elasticsearch data stores?",
+ ["Curator","Beats*","OSSEC","ElastAlert"],
+ "In the Elastic stack, Beats are the lightweight shippers on each host, Logstash normalizes, Elasticsearch indexes, Kibana visualizes, Curator manages indices and ElastAlert fires on saved queries.",0,0],
+[41,"NSM","Which two types of unreadable network traffic could be eliminated from data collected by NSM? (Choose two.)",
+ ["STP traffic","IPsec traffic*","routing updates traffic","SSL traffic*","broadcast traffic"],
+ "Data reduction discards what an analyst cannot use. Encrypted payloads (IPsec, SSL/TLS) are unreadable without decryption, so they are prime candidates; control-plane traffic such as STP and routing updates is readable and can matter.",0,"Choose two"],
+
+[42,"NSM","Which core open source component of the Elastic-stack is responsible for accepting the data in its native format and making elements of the data consistent across all sources?",
+ ["Logstash*","Kibana","Beats","Elasticsearch"],
+ "In an ELK pipeline the ingest/transform stage normalizes heterogeneous logs into a common schema. Beats ship, Logstash parses and normalizes, Elasticsearch indexes and searches, Kibana visualizes.",0,0],
+
+[43,"IR","Match the security incident stakeholder with the role.",
+ ["performs disciplinary measures &rarr; human resources*",
+  "changes firewall rules &rarr; information assurance*",
+  "preserves attack evidence &rarr; IT support*",
+  "designs the budget &rarr; management*",
+  "reviews policies for local or federal guideline violations &rarr; legal department*"],
+ "Incident response is cross-functional: technical teams contain and preserve, information assurance changes controls, HR handles personnel action, legal handles regulatory exposure, management funds and authorizes.",0,"Matching"],
+
+[44,"IR","In the NIST incident response process life cycle, which type of attack vector involves the use of brute force against devices, networks, or services?",
+ ["media","impersonation","attrition*","loss or theft"],
+ "NIST attack vectors describe how the incident started: attrition = brute force, media = storage device, impersonation = something or someone replaced/spoofed, loss or theft = equipment gone, web/email = delivery channel.",0,0],
+
+[45,"SOC","Match the security organization with its security functions. (Not all options are used.)",
+ ["It maintains and supports the Internet Storm Center and also develops security courses. &rarr; SANS*",
+  "It maintains a list of common vulnerabilities and exposures (CVE). &rarr; MITRE*",
+  "It brings together a variety of computer security incident response teams from government, commercial, and educational organizations to foster cooperation and coordination in information sharing, incident prevention and rapid reaction. &rarr; FIRST*",
+  "It provides vendor neutral educational products and career services to industry professionals globally. &rarr; (not used &mdash; CompTIA)"],
+ "Match the body to its artefact: MITRE owns CVE and ATT&amp;CK, SANS runs the Internet Storm Center and training, FIRST federates CSIRTs, (ISC)2 and CompTIA issue vendor-neutral certifications.",0,"Matching"],
+
+[46,"SOC","What is a characteristic of CybOX?",
+ ["It is a set of standardized schemata for specifying, capturing, characterizing, and communicating events and properties of network operations.*",
+  "It enables the real-time exchange of cyberthreat indicators between the U.S. Federal Government and the private sector.",
+  "It is a set of specifications for exchanging cyberthreat information between organizations.",
+  "It is the specification for an application layer protocol that allows the communication of CTI over HTTPS."],
+ "Separate the threat-intelligence standards by layer: CybOX is the schema for describing observables, STIX is the specification for expressing and exchanging threat information, TAXII is the transport protocol over HTTPS, AIS is the US government sharing programme.",0,0],
+
+[47,"TRANS","After host A receives a web page from server B, host A terminates the connection with server B. Match each step to its correct option in the normal termination process for a TCP connection. (Not all options are used.)",
+ ["Step 1 &rarr; Host A sends a FIN to server B.*",
+  "Step 2 &rarr; Server B sends an ACK to host A.*",
+  "Step 3 &rarr; Server B sends a FIN to host A.*",
+  "Step 4 &rarr; Host A sends an ACK to server B.*",
+  "Server B sends a SYN-ACK to Host A &rarr; (not used &mdash; that belongs to the three-way handshake)"],
+ "TCP teardown is two independent half-close pairs: FIN then ACK in each direction, four segments total. SYN/SYN-ACK/ACK belongs to connection setup, not termination.",0,"Matching / ordering"],
+
+[48,"IPV6","What are two ways that ICMP can be a security threat to a company? (Choose two.)",
+ ["by collecting information about a network*",
+  "by corrupting data between email servers and email recipients",
+  "by the infiltration of web pages",
+  "by corrupting network IP data packets",
+  "by providing a conduit for DoS attacks*"],
+ "ICMP is a diagnostic protocol, so its risk is reconnaissance (mapping hosts, topology and OS fingerprints) and being abused as a flood/amplification channel. It carries no application data, so it cannot corrupt mail or web content.",0,"Choose two"],
+
+[49,"IPV6","Which three IPv4 header fields have no equivalent in an IPv6 header? (Choose three.)",
+ ["fragment offset*","protocol","flag*","TTL","identification*","version"],
+ "IPv6 routers never fragment, so the three IPv4 fragmentation fields (identification, flag, fragment offset) are gone; host fragmentation moved to an extension header. Protocol became Next Header, TTL became Hop Limit, Version stayed.",0,"Choose three"],
+
+[50,"HOST","Which two <code>net</code> commands are associated with network resource sharing? (Choose two.)",
+ ["net start","net accounts","net share*","net use*","net stop"],
+ "The <code>net</code> family splits by object: share/use manage shared resources (offer one, connect to one), start/stop control services, accounts sets password policy, session lists connections, view lists machines.",0,"Choose two"],
+
+[51,"HOST","Match the Windows 10 Registry key with its description. (Not all options are used.)",
+ ["all of the configuration settings for the hardware and software configured on the computer for all users &rarr; HKEY_LOCAL_MACHINE*",
+  "settings about the file system, file associations, shortcuts used when you ask Windows to run a file, or view a directory &rarr; HKEY_CLASSES_ROOT*",
+  "data about the preferences of the currently logged on user, including personalization settings, default devices, and programs, etc &rarr; HKEY_CURRENT_USER*",
+  "information about the current hardware profile of the machine &rarr; HKEY_CURRENT_CONFIG*",
+  "HKEY_USERS &rarr; (not used &mdash; it holds the loaded profiles of all user accounts)"],
+ "Registry hives split by scope: machine-wide hardware and software (HKLM), the profile of the user logged on now (HKCU), all loaded user profiles (HKU), file-type associations (HKCR), the active hardware profile (HKCC).",
+ "&#9888; Provided key said <b>HKEY_USERS</b> for the machine-wide hardware/software settings &mdash; that is incorrect. Those settings live in <b>HKEY_LOCAL_MACHINE</b>; HKEY_USERS contains the loaded user profiles and is the unused option here.",
+ "Matching"],
+
+[52,"OSI","Which PDU format is used when bits are received from the network medium by the NIC of a host?",
+ ["segment","file","packet","frame*"],
+ "PDU names follow the layer: data/file at application, segment at transport, packet at network, frame at data link, bits on the wire. Bits arriving at the NIC are assembled into a frame first.",0,0],
+
+[53,"IPV6","A user is executing a tracert to a remote device. At what point would a router, which is in the path to the destination device, stop forwarding the packet?",
+ ["when the router receives an ICMP Time Exceeded message",
+  "when the values of both the Echo Request and Echo Reply messages reach zero",
+  "when the RTT value reaches zero",
+  "when the value in the TTL field reaches zero*",
+  "when the host responds with an ICMP Echo Reply message"],
+ "Each router decrements TTL by one; at zero it discards the packet and returns ICMP Time Exceeded. Traceroute exploits exactly that by walking the TTL upward to reveal each hop.",0,0],
+
+[54,"SEC","Refer to the exhibit. What solution can provide a VPN between site A and site B to offer transport of multicast traffic together with IPv4 unicast traffic and support any Layer 3 protocol between the internal networks at each site?",
+ ["an IPsec tunnel","Cisco SSL VPN","a GRE tunnel*","a remote access tunnel"],
+ "GRE is a generic site-to-site encapsulation: it carries any Layer 3 payload including multicast and routing protocols, but provides no encryption. Standard IPsec tunnel mode carries unicast IP only, which is why GRE-over-IPsec exists.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nSite A --- R1 === [ Tunnel over the Internet ] === R2 --- Site B\nA single logical tunnel spans the Internet cloud between the two edge routers."],
+
+[55,"ATT","For what purpose would a network administrator use the Nmap tool?",
+ ["protection of the private IP addresses of internal hosts",
+  "identification of specific network anomalies",
+  "collection and analysis of security alerts and logs",
+  "detection and identification of open ports*"],
+ "Nmap is a host/port discovery scanner: it finds live hosts, open TCP/UDP ports and often service versions and OS fingerprints. Anomaly detection is IDS work and alert collection is SIEM work.",0,0],
+
+[56,"MGMT","Match the network service with the description.",
+ ["provides statistics on IP packets flowing through network devices &rarr; NetFlow*",
+  "notifies the administrator with detailed system messages &rarr; syslog*",
+  "allows administrators to manage network nodes &rarr; SNMP*",
+  "synchronizes the time across all devices on the network &rarr; NTP*"],
+ "Management protocols by job: NetFlow accounts for flows, syslog carries event messages, SNMP reads and sets device state, NTP synchronizes clocks so all the other timestamps can be correlated.",
+ "&#9888; The source bank has no item 57 &mdash; numbering jumps from this item straight to 58. Nothing has been omitted here.",
+ "Matching"],
+
+[58,"ATT","Match the attack surface with attack exploits.",
+ ["These attacks are delivered through exploitation of vulnerabilities in web, cloud, or host-based software applications. &rarr; Software Attack Surface*",
+  "These attacks include conventional wired and wireless network protocols, as well as other wireless protocols used by smartphones or IoT devices. The attacks target vulnerabilities at the transport layer. &rarr; Network Attack Surface*",
+  "These attacks include social engineering, malicious behaviour by trusted insiders, and user error. &rarr; Human Attack Surface*"],
+ "The three attack surfaces are network (protocols and interfaces), software (application code) and human (people and process). Reducing the total attack surface means shrinking all three, not just the network.",0,"Matching"],
+
+[59,"SEC","Match the Linux host-based firewall application with its description.",
+ ["This is a rule-based access control and logging system for Linux Packet filtering based on IP addresses and network services. &rarr; TCP Wrappers*",
+  "This is an application that allows Linux system administrators to configure network access rules that are part of the Linux kernel Netfilter modules. &rarr; iptables*",
+  "This application uses a simple virtual machine in the Linux kernel where code is executed and network packets are inspected. &rarr; nftables*"],
+ "All three filter on Linux but at different places: TCP Wrappers wraps services at the application level, iptables configures the kernel Netfilter hooks, nftables is the successor using an in-kernel virtual machine.",0,"Matching"],
+
+[60,"ATT","What network attack seeks to create a DoS for clients by preventing them from being able to obtain a DHCP lease?",
+ ["DHCP starvation*","IP address spoofing","DHCP spoofing","CAM table attack"],
+ "Starvation exhausts a resource (the address pool, via floods of DHCPDISCOVER); spoofing inserts a rogue server to hand out bad gateway/DNS. Ask whether the goal is denial or deception.",0,0],
+
+[61,"OSI","Refer to the exhibit. If Host1 were to transfer a file to the server, what layers of the TCP/IP model would be used?",
+ ["only application and Internet layers",
+  "application, transport, Internet, and network access layers*",
+  "only Internet and network access layers",
+  "only application, transport, network, data link, and physical layers",
+  "only application, Internet, and network access layers",
+  "application, session, transport, network, data link, and physical layers"],
+ "An end host always traverses the full stack. The TCP/IP model has exactly four layers &mdash; application, transport, internet, network access &mdash; so any option naming session, data link or physical is mixing in the OSI model.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nHost1 --- Switch1 --- Router1 === Router2 --- Switch2 --- Server\nRouter2 also connects up to an ISP cloud."],
+
+[62,"SEC","A company has a file server that shares a folder named Public. The network security policy specifies that the Public folder is assigned Read-Only rights to anyone who can log into the server while the Edit rights are assigned only to the network admin group. Which component is addressed in the AAA network service framework?",
+ ["automation","authentication","authorization*","accounting"],
+ "AAA in order: authentication proves who you are, authorization decides what you may do with which resource, accounting records what you did. Differing rights per group is authorization.",0,0],
+
+[63,"ROUTE","Match the destination network routing table entry type with a defintion.",
+ ["found only in routers running IOS 15+ or IPv6 routing &rarr; local route interface*",
+  "automatically added when an interface is configured and active &rarr; directly connected interface*",
+  "added when a protocol such as OSPF or EIGRP discovers a route &rarr; dynamic route*",
+  "manually configured by a network administrator &rarr; static route*"],
+ "Route sources: connected (C) and local (L) appear when an interface is up and addressed, static (S) is typed in by an admin, dynamic (O, D, R) is learned from a routing protocol. The source determines the administrative distance used to break ties.",0,"Matching"],
+
+[64,"WLAN","A person coming to a cafe for the first time wants to gain wireless access to the Internet using a laptop. What is the first step the wireless client will do in order to communicate over the network using a wireless management frame?",
+ ["associate with the AP","authenticate to the AP","discover the AP*","agree with the AP on the payload"],
+ "Wireless association is a fixed three-stage sequence using management frames: discover the AP (beacon or probe), authenticate, then associate. Data frames only flow after all three.",0,0],
+
+[65,"IPV6","A device has been assigned the IPv6 address of 2001:0db8:cafe:4500:1000:00d8:0058:00ab/64. Which is the network identifier of the device?",
+ ["2001:0db8:cafe:4500:1000","2001:0db8:cafe:4500:1000:00d8:0058:00ab","1000:00d8:0058:00ab","2001:0db8:cafe:4500*","2001"],
+ "The prefix length counts bits from the left, and each IPv6 hextet is 16 bits. A /64 therefore keeps the first four hextets as the network identifier and leaves the last four as the interface ID.",0,0],
+
+[66,"IPADDR","An administrator wants to create four subnetworks from the network address 192.168.1.0/24. What is the network address and subnet mask of the second useable subnet?",
+ ["subnetwork 192.168.1.64 / subnet mask 255.255.255.192*",
+  "subnetwork 192.168.1.64 / subnet mask 255.255.255.240",
+  "subnetwork 192.168.1.32 / subnet mask 255.255.255.240",
+  "subnetwork 192.168.1.128 / subnet mask 255.255.255.192",
+  "subnetwork 192.168.1.8 / subnet mask 255.255.255.224"],
+ "Borrow n bits so that 2^n equals the number of subnets needed: four subnets = 2 bits, giving /26 (255.255.255.192) and a block size of 64. Subnets are then .0, .64, .128, .192 and the second one is .64.",0,0],
+
+[67,"ATT","What term describes a set of software tools designed to increase the privileges of a user or to grant access to the user to portions of the operating system that should not normally be allowed?",
+ ["compiler","rootkit*","package manager","penetration testing"],
+ "A rootkit is a toolkit that both escalates privilege and hides itself in the OS to keep a backdoor open. The clue is elevated access plus concealment.",0,0],
+
+[68,"GOV","The IT security personnel of an organization notice that the web server deployed in the DMZ is frequently targeted by threat actors. The decision is made to implement a patch management system to manage the server. Which risk management strategy method is being used to respond to the identified risk?",
+ ["risk sharing","risk avoidance","risk reduction*","risk retention"],
+ "Applying a control that lowers the vulnerability (patching, hardening, segmentation) is risk reduction. Retiring the service would be avoidance, insuring it would be sharing, doing nothing would be retention.",0,0],
+
+[69,"GOV","What are three characteristics of an information security management system? (Choose three.)",
+ ["It involves the implementation of systems that track the location and configuration of networked devices and software across an enterprise.",
+  "It is a systematic and multilayered approach to cybersecurity.*",
+  "It addresses the inventory and control of hardware and software configurations of systems.",
+  "It consists of a set of practices that are systematically applied to ensure continuous improvement in information security.*",
+  "It consists of a management framework through which an organization identifies, analyzes, and addresses information security risks.*",
+  "It is based on the application of servers and security devices."],
+ "An ISMS (ISO 27001) is management process, not product: a framework of policies and practices for identifying and treating risk with continuous improvement. Inventory and configuration control are separate management systems.",0,"Choose three"],
+
+[70,"SOC","Which three technologies should be included in a SOC security information and event management system? (Choose three.)",
+ ["event collection, correlation, and analysis*","security monitoring*","user authentication","proxy service","intrusion prevention","threat intelligence*"],
+ "SIEM/SOC technologies are about seeing and understanding events: collection, correlation and analysis, monitoring, security control, log management, vulnerability assessment and tracking, threat intelligence. Proxies, VPNs and IPS are enforcement devices in the infrastructure.",0,"Choose three"],
+
+[71,"SVC","What part of the URL, http://www.cisco.com/index.html, represents the top-level DNS domain?",
+ ["http","www",".com*","index"],
+ "Read a URL right-to-left for DNS structure: the rightmost label is the top-level domain, the label before it is the registered domain, and further left are host or subdomain labels. The scheme and the file name are not DNS at all.",0,0],
+
+[72,"ATT","What best describes the security threat of spoofing?",
+ ["sending bulk email to individuals, lists, or domains with the intention to prevent users from accessing email",
+  "sending abnormally large amounts of data to a remote server to prevent user access to the server services",
+  "intercepting traffic between two hosts or inserting false information into traffic between two hosts",
+  "making data appear to come from a source that is not the actual source*"],
+ "Spoofing is falsifying identity in a field (MAC, IP, email sender, DHCP server). Intercepting or altering a live conversation is MiTM; volume attacks are DoS.",0,0],
+
+[73,"HOST","A newly created company has fifteen Windows 10 computers that need to be installed before the company can open for business. What is a best practice that the technician should implement when configuring the Windows Firewall?",
+ ["The technician should remove all default firewall rules and selectively deny traffic from reaching the company network.",
+  "After implementing third party security software for the company, the technician should verify that the Windows Firewall is disabled.*",
+  "The technician should create instructions for corporate users on how to allow an app through the WIndows Firewall using the Administrator account.",
+  "The technician should enable the Windows Firewall for inbound traffic and install other firewall software for outbound traffic control."],
+ "Never run two host firewalls on the same interface: the rule sets conflict and troubleshooting becomes guesswork. Pick one enforcement point &mdash; if third-party software takes over, the built-in firewall should be off.",0,0],
+
+[74,"ALERT","Which statement defines the difference between session data and transaction data in logs?",
+ ["Session data analyzes network traffic and predicts network behavior, whereas transaction data records network sessions.",
+  "Session data is used to make predictions on network behaviors, whereas transaction data is used to detect network anomalies.",
+  "Session data records a conversation between hosts, whereas transaction data focuses on the result of network sessions.*",
+  "Session data shows the result of a network session, whereas transaction data is in response to network threat traffic."],
+ "Session data describes the conversation itself (who talked to whom, when, how much &mdash; the 5-tuple and counters); transaction data records the request/response outcomes inside it (server and host log entries).",0,0],
+
+[75,"ALERT","Match the network monitoring data type with the description.",
+ ["includes device-specific server and host logs &rarr; transaction data*",
+  "generated by IPS or IDS devices when suspicious traffic is detected &rarr; alert data*",
+  "used to describe and analyze network flow or performance data &rarr; statistical data*",
+  "contains details of network flows including the 5-tuples, the amount of data transmitted, and the duration of data transmission &rarr; session data*"],
+ "The four NSM data types answer different questions: session (who talked), transaction (what was requested and returned), alert (what a sensor judged suspicious), statistical (what is normal, for baselining).",0,"Matching"],
+
+[76,"NSM","Which device supports the use of SPAN to enable monitoring of malicious activity?",
+ ["Cisco Catalyst switch*","Cisco IronPort","Cisco NAC","Cisco Security Agent"],
+ "SPAN (port mirroring) is a switch feature: the switch copies traffic from source ports or VLANs to a destination port where a sensor listens. Appliances and agents consume that traffic, they do not mirror it.",0,0],
+
+[77,"SOC","Which term is used for describing automated queries that are useful for adding efficiency to the cyberoperations workflow?",
+ ["cyber kill chain","playbook*","chain of custody","rootkit"],
+ "A playbook is a stored collection of queries and repeatable response steps so analysts do not re-invent an investigation each time. Kill chain is an attack model and chain of custody is an evidence-handling record.",0,0],
+
+[78,"SEC","When ACLs are configured to block IP address spoofing and DoS flood attacks, which ICMP message should be allowed both inbound and outbound?",
+ ["echo reply","unreachable","source quench*","echo"],
+ "When tightening ICMP, keep the messages the stack needs for correct operation and drop the ones that aid reconnaissance or floods. Per the Cisco guidance here, source quench (flow-control throttling) is permitted in both directions.",
+ "&#9888; Dated in practice: RFC 6633 deprecated ICMP Source Quench and modern hosts ignore it. The answer above is the one the course expects; in a real ACL you would permit path-MTU-related unreachable messages instead.",0],
+
+[79,"NSM","After a security monitoring tool identifies a malware attachment entering the network, what is the benefit of performing a retrospective analysis?",
+ ["It can identify how the malware originally entered the network.",
+  "A retrospective analysis can help in tracking the behavior of the malware from the identification point forward.*",
+  "It can calculate the probability of a future incident.",
+  "It can determine which network host was first affected."],
+ "General monitoring answers what came in and where it landed; retrospective analysis replays stored data to follow what the file did afterwards, which is how lateral movement and second-stage payloads are found.",0,0],
+
+[80,"GOV","Which two data types would be classified as personally identifiable information (PII)? (Choose two.)",
+ ["average number of cattle per region","vehicle identification number*","hospital emergency use per region","Facebook photographs*"],
+ "PII is any data that can identify a specific person on its own or combined with other data &mdash; names, IDs, VINs, photographs, biometrics. Aggregated regional statistics identify no individual.",0,"Choose two"],
+[81,"ATT","A help desk technician notices an increased number of calls relating to the performance of computers located at the manufacturing plant. The technician believes that botnets are causing the issue. What are two purposes of botnets? (Choose two.)",
+ ["to transmit viruses or spam to computers on the same network*",
+  "to record any and all keystrokes",
+  "to attack other computers*",
+  "to withhold access to a computer or files until money has been paid",
+  "to gain access to the restricted part of the operating system"],
+ "A botnet is rented capacity: many compromised hosts under one command-and-control, used for DDoS, spam and malware distribution, and bulk data theft. Keylogging, ransom and privilege escalation are other malware categories.",0,"Choose two"],
+
+[82,"CRYPTO","Which two statements describe the use of asymmetric algorithms? (Choose two.)",
+ ["Public and private keys may be used interchangeably.",
+  "If a public key is used to encrypt the data, a private key must be used to decrypt the data.*",
+  "If a public key is used to encrypt the data, a public key must be used to decrypt the data.",
+  "If a private key is used to encrypt the data, a public key must be used to decrypt the data.*",
+  "If a private key is used to encrypt the data, a private key must be used to decrypt the data."],
+ "Asymmetric keys work only as a matched pair and always in opposition: whichever key encrypts, the other one decrypts. Public-key-in gives confidentiality, private-key-in gives authentication (a signature).",0,"Choose two"],
+
+[83,"CRYPTO","Which three security services are provided by digital signatures? (Choose three.)",
+ ["provides nonrepudiation using HMAC functions*",
+  "guarantees data has not changed in transit*",
+  "provides data encryption",
+  "authenticates the source*",
+  "provides confidentiality of digitally signed data",
+  "authenticates the destination"],
+ "A digital signature delivers exactly three services: authenticity of the source, integrity of the data, and non-repudiation. Confidentiality is not one of them &mdash; that requires separately encrypting the message.",
+ "&#9888; Provided key said <b>provides data encryption</b> &mdash; that is incorrect. Signing hashes the message and encrypts only the hash with the signer private key; the message itself stays readable, so a signature provides no confidentiality. The third service is non-repudiation.",
+ "Choose three"],
+
+[84,"CRYPTO","What are two methods to maintain certificate revocation status? (Choose two.)",
+ ["CRL*","DNS","subordinate CA","OCSP*","LDAP"],
+ "Revocation has two delivery models: download a signed list of revoked serial numbers (CRL) or query the CA in real time for one certificate (OCSP). LDAP or HTTP may transport a CRL but are not the mechanism.",0,"Choose two"],
+
+[85,"SEC","What are two uses of an access control list? (Choose two.)",
+ ["ACLs provide a basic level of security for network access.*",
+  "ACLs can control which areas a host can access on a network.*",
+  "Standard ACLs can restrict access to specific applications and ports.",
+  "ACLs assist the router in determining the best path to a destination.",
+  "ACLs can permit or deny traffic based upon the MAC address originating on the router."],
+ "An ACL is a Layer 3/4 traffic filter: basic security plus control over which destinations a host may reach, and it can also limit routing updates or select traffic. Standard ACLs match source IP only &mdash; port and application matching needs an extended ACL &mdash; and path selection is the routing table job.",0,"Choose two"],
+
+[86,"IPV6","A client is using SLAAC to obtain an IPv6 address for the interface. After an address has been generated and applied to the interface, what must the client do before it can begin to use this IPv6 address?",
+ ["It must send an ICMPv6 Router Solicitation message to determine what default gateway it should use.",
+  "It must send an ICMPv6 Router Solicitation message to request the address of the DNS server.",
+  "It must send an ICMPv6 Neighbor Solicitation message to ensure that the address is not already in use on the network.*",
+  "It must wait for an ICMPv6 Router Advertisement message giving permission to use this address."],
+ "Because SLAAC generates an address locally with no server arbitration, every IPv6 host must run Duplicate Address Detection first: a Neighbor Solicitation for its own tentative address, and silence means the address is free.",0,0],
+
+[87,"OSI","A technician is troubleshooting a network connectivity problem. Pings to the local wireless router are successful but pings to a server on the Internet are unsuccessful. Which CLI command could assist the technician to find the location of the networking problem?",
+ ["tracert*","ipconfig","msconfig","ipconfig/renew"],
+ "When the local hop works but a remote host does not, you need per-hop visibility: traceroute/tracert shows the last responding hop, which brackets the fault. ipconfig only reports or renews local configuration.",0,0],
+
+[88,"ATT","What are two evasion techniques that are used by hackers? (Choose two.)",
+ ["Trojan horse","pivot*","rootkit*","reconnaissance","phishing"],
+ "Evasion is about avoiding detection or attribution: rootkits hide the tooling, pivoting hides the origin behind an already-compromised host, and encryption, traffic fragmentation and resource exhaustion hide the traffic. Trojans, phishing and recon are delivery or discovery, not evasion.",0,"Choose two"],
+
+[89,"IR","When a security attack has occurred, which two approaches should security professionals take to mitigate a compromised system during the Actions on Objectives step as defined by the Cyber Kill Chain model? (Choose two.)",
+ ["Perform forensic analysis of endpoints for rapid triage.*",
+  "Train web developers for securing code.",
+  "Build detections for the behavior of known malware.",
+  "Collect malware files and metadata for future analysis.",
+  "Detect data exfiltration, lateral movement, and unauthorized credential usage.*"],
+ "By Actions on Objectives the attacker is already inside, so defence shifts from prevention to damage limitation: triage endpoints forensically and hunt for exfiltration, lateral movement and credential abuse. Code training and malware collection belong to earlier phases.",0,"Choose two"],
+
+[90,"IR","Place the seven steps defined in the Cyber Kill Chain in the correct order.",
+ ["Step 1 &rarr; reconnaissance*","Step 2 &rarr; weaponization*","Step 3 &rarr; delivery*","Step 4 &rarr; exploitation*",
+  "Step 5 &rarr; installation*","Step 6 &rarr; command and control*","Step 7 &rarr; action on objectives*"],
+ "The chain follows the attacker workflow: research the target, build the weapon, send it, trigger it, persist, call home, then act. Breaking any single link stops the attack, which is why the model drives control placement.",0,"Ordering"],
+
+[91,"TRANS","Which field in the TCP header indicates the status of the three-way handshake process?",
+ ["control bits*","window","reserved","checksum"],
+ "The control bits (flags: SYN, ACK, FIN, RST, PSH, URG) carry connection state, so handshake and teardown are read from them. Window is flow control, checksum is error detection.",0,0],
+
+[92,"TRANS","A user opens three browsers on the same PC to access www.cisco.com to search for certification course information. The Cisco web server sends a datagram as a reply to the request from one of the web browsers. Which information is used by the TCP/IP protocol stack in the PC to identify which of the three web browsers should receive the reply?",
+ ["the source IP address","the destination port number*","the destination IP address","the source port number"],
+ "All three sessions share one IP address, so the differentiator must be the port. Each client picks a unique ephemeral source port; the server echoes it back as the destination port, which demultiplexes the reply to the right process.",0,0],
+
+[93,"ALERT","What are two scenarios where probabilistic security analysis is best suited? (Choose two.)",
+ ["when random variables create difficulty in knowing with certainty the outcome of any given event*",
+  "when each event is the inevitable result of antecedent causes",
+  "when analyzing applications designed to circumvent firewalls*",
+  "when analyzing events with the assumption that they follow predefined steps"],
+ "Deterministic analysis assumes a fixed, standards-compliant sequence and can state what must have happened; probabilistic analysis estimates likelihood and is the only option when behaviour is randomized or deliberately non-standard, as with evasive applications.",0,"Choose two"],
+
+[94,"NSM","Which tool is a web application that provides the cybersecurity analyst an easy-to-read means of viewing an entire Layer 4 session?",
+ ["Snort","Zeek","CapME*","OSSEC"],
+ "CapME is the web front end for reading a full session transcript (or pulling the pcap) from stored capture. Snort alerts, Zeek logs protocol metadata, OSSEC watches the host.",0,0],
+
+[95,"ATT","(Stem lost to a page break in the source PDF &mdash; reconstructed:) Match the network attack with the description.",
+ ["It occurs when threat actors have positioned themselves between a source and a destination and can actively monitor, capture, and control the communication transparently. &rarr; MiTM*",
+  "It uses an application or device that can read, monitor, and capture network data exchanges and read network packets. &rarr; sniffer attack*",
+  "It can crash applications or network services. It can also flood a computer or the entire network with traffic until a shutdown occurs because of the overload. &rarr; DoS*",
+  "It constructs an IP packet that appears to originate from a valid address inside a corporate network. &rarr; (not used &mdash; IP spoofing)"],
+ "Separate by attacker position and goal: passive reading of traffic (sniffing), active insertion into the path with the ability to alter traffic (MiTM), overwhelming a service (DoS), falsifying a header field (spoofing).",
+ "&#9888; The question stem was cut by a page break in the source; the options, answers and explanation (Topic 13.2.3) are reproduced exactly.",
+ "Matching"],
+
+[96,"IPV6","What are two characteristics of the SLAAC method for IPv6 address configuration? (Choose two.)",
+ ["The default gateway of an IPv6 client on a LAN will be the link-local address of the router interface attached to the LAN.*",
+  "This stateful method of acquiring an IPv6 address requires at least one DHCPv6 server.",
+  "Clients send router advertisement messages to routers to request IPv6 addressing.",
+  "IPv6 addressing is dynamically assigned to clients through the use of ICMPv6.*",
+  "Router solicitation messages are sent by the router to offer IPv6 addressing to clients."],
+ "SLAAC is stateless and server-free: the host learns the prefix from the router via ICMPv6, builds its own interface ID, and uses the router link-local address as the default gateway. Clients send RS, routers send RA &mdash; never the reverse.",0,"Choose two"],
+
+[97,"HOST","A technician notices that an application is not responding to commands and that the computer seems to respond slowly when applications are opened. What is the best administrative tool to force the release of system resources from the unresponsive application?",
+ ["Task Manager*","Event Viewer","System Restore","Add or Remove Programs"],
+ "Match the tool to the job: Task Manager inspects and kills live processes and shows CPU/RAM pressure, Event Viewer reads logs after the fact, System Restore rolls back configuration, Add/Remove changes installed software.",
+ "&#9888; Source clipped &mdash; the correct option was cut by a page break; restored from the source explanation, which names the Task Manager Performance and Applications tabs (Topic 3.3.6).",0],
+
+[98,"ALERT","How can statistical data be used to describe or predict network behavior?",
+ ["by comparing normal network behavior to current network behavior*",
+  "by recording conversations between network endpoints",
+  "by listing results of user web surfing activities",
+  "by displaying alert messages that are generated by Snort"],
+ "Statistical analysis works by baseline and deviation: build a profile of normal throughput, ports, durations and peers, then flag current traffic that departs from it. Without a baseline there is nothing to compare against.",0,0],
+
+[99,"GOV","Which metric in the CVSS Base Metric Group is used with an attack vector?",
+ ["the proximity of the threat actor to the vulnerability*",
+  "the presence or absence of the requirement for user interaction in order for an exploit to be successful",
+  "the determination whether the initial authority changes to a second authority during the exploit",
+  "the number of components, software, hardware, or networks, that are beyond the control of the attacker and that must be present in order for a vulnerability to be successfully exploited"],
+ "CVSS Base exploitability metrics each measure one obstacle: Attack Vector = how far away the attacker can be (network, adjacent, local, physical), User Interaction = does a victim have to act, Scope = does authority change, Attack Complexity = what conditions must exist. Remote exploitability scores highest.",0,0],
+
+[100,"GOV","Which NIST Cybersecurity Framework core function is concerned with the development and implementation of safeguards that ensure the delivery of critical infrastructure services?",
+ ["respond","detect","identify","recover","protect*"],
+ "The five NIST CSF functions run in order: Identify (know your assets and risks), Protect (put safeguards in place), Detect (spot events), Respond (contain and communicate), Recover (restore). Safeguards belong to Protect.",0,0],
+
+[101,"ATT","Which two techniques are used in a smurf attack? (Choose two.)",
+ ["session hijacking","resource exhaustion","botnets","amplification*","reflection*"],
+ "A smurf attack spoofs the victim address into ICMP echo requests sent to a broadcast or open-resolver population, so many hosts reply to the victim: reflection hides the origin and amplification multiplies the volume.",
+ "&#9888; Source clipped &mdash; the last two options were cut by a page break; restored from the source explanation, which states that smurf uses amplification and reflection (Topic 16.2.4).",
+ "Choose two"],
+
+[102,"SOC","What is the primary objective of a threat intelligence platform (TIP)?",
+ ["to aggregate the data in one place and present it in a comprehensible and usable format*",
+  "to provide a specification for an application layer protocol that allows the communication of CTI over HTTPS",
+  "to provide a standardized schema for specifying, capturing, characterizing, and communicating events and properties of network operations",
+  "to provide a security operations platform that integrates and enhances diverse security tools and threat intelligence"],
+ "A TIP centralizes feeds from many sources and formats and makes them usable and actionable. The other three options describe TAXII (transport), CybOX (schema) and a broader security operations platform.",0,0],
+
+[103,"WLAN","Which wireless parameter is used by an access point to broadcast frames that include the SSID?",
+ ["security mode","active mode","passive mode*","channel setting"],
+ "In passive mode the AP advertises the SSID and its settings in beacon frames, so clients discover it by listening. In active mode the AP does not beacon the SSID and the client must be configured and send probe requests.",0,0],
+
+[104,"NSM","Match the field in the Event table of Sguil to the description.",
+ ["the unique ID of the sensor &rarr; sid*",
+  "IP protocol type of the packet &rarr; ip_proto*",
+  "the human readable name of the event &rarr; signature*",
+  "the unique event number from the sensor &rarr; cid*",
+  "the time the event occurred on the sensor &rarr; timestamp*",
+  "the Sguil classification assigned to this event &rarr; status*"],
+ "Sguil event fields split into identity (sid = which sensor, cid = which event on that sensor), content (ip_proto, signature), time (timestamp) and analyst workflow (status = the classification assigned).",
+ "&#9888; The source lists Explanation Topic 11.2.6 for this item, which is a copy-and-paste error in the PDF &mdash; 11.2.6 is the wireless probing topic. The field mappings themselves are correct.",
+ "Matching"],
+
+[105,"ATT","An employee connects wirelessly to the company network using a cell phone. The employee then configures the cell phone to act as a wireless access point that will allow new employees to connect to the company network. Which type of security threat best describes this situation?",
+ ["rogue access point*","cracking","denial of service","spoofing"],
+ "Any unauthorized AP attached to the corporate network is a rogue AP: it bypasses the controlled entry point and its authentication, whether or not the person meant harm.",0,0],
+
+[106,"SVC","What information is required for a WHOIS query?",
+ ["outside global address of the client","FQDN of the domain*"],
+ "WHOIS is a registration lookup keyed on the domain name (or an IP block), returning registrant, registrar and name-server details. It is a common OSINT reconnaissance step.",
+ "&#9888; Two of the four distractors were hidden behind an ad block in the source PDF and are not reproduced here (nothing is invented). The correct answer and its explanation (Topic 10.2.6) are intact.",0],
+
+[107,"CRYPTO","Which two statements describe the characteristics of symmetric algorithms? (Choose two.)",
+ ["They are referred to as a pre-shared key or secret key.*",
+  "They use a pair of a public key and a private key.",
+  "They are commonly used with VPN traffic.*",
+  "They provide confidentiality, integrity, and availability."],
+ "Symmetric ciphers use one shared secret for both directions, which makes them fast enough for bulk traffic such as VPN payloads; their weakness is key distribution, which is why asymmetric crypto is used to exchange the key.",0,"Choose two"],
+
+[108,"SEC","What are two drawbacks to using HIPS? (Choose two.)",
+ ["With HIPS, the success or failure of an attack cannot be readily determined.",
+  "With HIPS, the network administrator must verify support for all the different operating systems used in the network.*",
+  "HIPS has difficulty constructing an accurate network picture or coordinating events that occur across the entire network.*",
+  "If the network traffic stream is encrypted, HIPS is unable to access unencrypted forms of the traffic.",
+  "HIPS installations are vulnerable to fragmentation attacks or variable TTL attacks"],
+ "A host agent sees one host perfectly and the network not at all: it cannot correlate an enterprise-wide picture, and it must be ported and maintained for every OS in use. Encryption blindness and fragmentation evasion are network IPS problems &mdash; the host sees decrypted, reassembled data.",0,"Choose two"],
+
+[109,"MGMT","What are three functions provided by the syslog service? (Choose three.)",
+ ["to select the type of logging information that is captured*",
+  "to periodically poll agents for data",
+  "to provide statistics on packets that are flowing through a Cisco device",
+  "to provide traffic analysis",
+  "to gather logging information for monitoring and troubleshooting*",
+  "to specify the destinations of captured messages*"],
+ "Syslog does three things: gather event messages, filter them by severity level, and forward them to chosen destinations (console, buffer, server). Polling is SNMP and flow statistics are NetFlow.",0,"Choose three"],
+
+[110,"MGMT","Which consideration is important when implementing syslog in a network?",
+ ["Enable the highest level of syslog available to ensure logging of all possible event messages.",
+  "Synchronize clocks on all network devices with a protocol such as Network Time Protocol.*",
+  "Log all messages to the system buffer so that they can be displayed when accessing the router.",
+  "Use SSH to access syslog information"],
+ "Logs are only correlatable if their timestamps agree, so NTP is a prerequisite for any multi-device logging or forensic timeline. Logging everything at maximum verbosity instead buries the useful events.",0,0],
+
+[111,"MGMT","What are the two ways threat actors use NTP? (Choose two.)",
+ ["They place an attachment inside an email message.",
+  "They attack the NTP infrastructure in order to corrupt the information used to log the attack.*",
+  "They place iFrames on a frequently used corporate web page.",
+  "They encode stolen data as the subdomain portion where the nameserver is under control of an attacker.",
+  "Threat actors use NTP systems to direct DDoS attacks.*"],
+ "NTP is attacked for two reasons: corrupting time destroys the evidentiary value of every log, and NTP servers make good UDP amplifiers for DDoS reflection.",0,"Choose two"],
+
+[112,"SEC","Which two features are included by both TACACS+ and RADIUS protocols? (Choose two.)",
+ ["password encryption*","separate authentication and authorization processes",
+  "utilization of transport layer protocols*","802.1X support"],
+ "Both AAA protocols encrypt at least the password and both ride a Layer 4 transport (TACACS+ on TCP, RADIUS on UDP). Separated A-A-A is TACACS+ only; 802.1X and SIP support is RADIUS only.",0,"Choose two"],
+
+[113,"NSM","Match the SIEM function to the description.",
+ ["reduces the volume of event data by consolidating duplicate event records &rarr; aggregation*",
+  "presents event data in real-time monitoring and long-time summaries &rarr; reporting*",
+  "speeds detection of and reaction to security threats by examining logs and events from different systems &rarr; correlation*",
+  "searches logs and events from sources throughout the organization for complete information analysis &rarr; forensic analysis*"],
+ "SIEM functions in pipeline order: collect, aggregate (deduplicate), correlate (link events across systems into one incident), report (dashboards and summaries), then retain for forensic search and compliance.",0,"Matching"],
+
+[114,"ATT","(Stem lost to a page break in the source PDF &mdash; reconstructed:) Which two types of attacks are used on DNS open resolvers? (Choose two.)",
+ ["amplification and reflection*","fast flux","ARP poisoning","resource utilization*","cushioning"],
+ "The three DNS open-resolver attacks are cache poisoning (falsified records), amplification and reflection (small queries producing large spoofed replies), and resource utilization (query floods that exhaust the resolver). Fast flux and HTTP 302 cushioning hide infrastructure rather than attacking the resolver.",
+ "&#9888; The question stem was cut by a page break in the source; the options, answers and explanation (Topic 17.1.3) are reproduced exactly.",
+ "Choose two"],
+
+[115,"ATT","What are three goals of a port scan attack? (Choose three.)",
+ ["to identify peripheral configurations","to determine potential vulnerabilities*","to disable used ports and services",
+  "to identify operating systems*","to identify active services*","to discover system passwords"],
+ "Port scanning is reconnaissance: it enumerates which services are listening, fingerprints the OS and versions, and from that infers likely vulnerabilities. It does not change the target or recover credentials.",0,"Choose three"],
+
+[116,"SVC","Which protocol or service uses UDP for a client-to-server communication and TCP for server-to-server communication?",
+ ["HTTP","FTP","DNS*","SMTP"],
+ "DNS uses UDP/53 for small, fast client queries and switches to TCP/53 when reliability or size matters &mdash; zone transfers between servers and responses over 512 bytes.",0,0],
+
+[117,"OSI","What is one difference between the client-server and peer-to-peer network models?",
+ ["Only in the client-server model can file transfers occur.",
+  "A data transfer that uses a device serving in a client role requires that a dedicated server be present.",
+  "A peer-to-peer network transfers data faster than a transfer using a client-server network.",
+  "Every device in a peer-to-peer network can function as a client or a server.*"],
+ "The distinction is role assignment, not capability or speed: in P2P any host can act as client and server simultaneously, while client-server dedicates a host to the server role. Transfer speed depends on media and load, not on the model.",0,0],
+
+[118,"OSI","Which statement is correct about network protocols?",
+ ["They define how messages are exchanged between the source and the destination.*",
+  "They all function in the network access layer of TCP/IP.",
+  "They are only required for exchange of messages between devices on remote networks.",
+  "Network protocols define the type of hardware that is used and how it is mounted in racks."],
+ "A protocol is an agreed set of rules for message format, addressing, sequencing and error handling. Protocols exist at every layer and are required for local as well as remote communication; they say nothing about physical installation.",0,0],
+
+[119,"IR","Which approach can help block potential malware delivery methods, as described in the Cyber Kill Chain model, on an Internet-faced web server?",
+ ["Analyze the infrastructure storage path used for files.*",
+  "Build detections for the behavior of known malware.",
+  "Collect malware files and metadata for future analysis.",
+  "Audit the web server to forensically determine the origin of the exploit."],
+ "Delivery-phase defence means blocking the channel the weapon arrives on. For a web server that means understanding and monitoring where uploaded files and coded requests are stored and served from. Behaviour detections and forensics act after delivery.",
+ "&#9888; Source clipped &mdash; the correct option was cut by a page break; restored from the source explanation, which describes analyzing the infrastructure storage path used for files (Topic 28.2.4).",0],
+
+[120,"IR","Which meta-feature element in the Diamond Model classifies the general type of intrusion event?",
+ ["phase","results","methodology*","direction"],
+ "The Diamond Model core features are adversary, capability, infrastructure and victim; the meta-features add context. Methodology names the class of event (port scan, phishing, syn flood), while phase, results and direction describe stage, outcome and flow.",0,0],
+
+[121,"HOST","Which Linux command is used to manage processes?",
+ ["chrootkit","ls","grep","kill*"],
+ "Process control commands are ps, top and kill (stop, restart or pause by PID or signal). ls lists files, grep searches text, chkrootkit scans for rootkits.",0,0],
+
+[122,"MGMT","Which tool can be used in a Cisco AVC system to analyze and present the application analysis data into dashboard reports?",
+ ["NetFlow","NBAR2","Prime*","IPFIX"],
+ "Cisco AVC has three stages: recognition (NBAR2), export of the metrics (NetFlow/IPFIX), and management reporting (Cisco Prime). Dashboards and reports come from the management layer.",0,0],
+
+[123,"HOST","Which Windows Event Viewer log includes events regarding the operation of drivers, processes, and hardware?",
+ ["system logs*","application logs","security logs","setup logs"],
+ "Windows keeps four host logs by scope: application (events from programs), system (drivers, processes, hardware, OS components), setup (installation and updates), security (logons and object access &mdash; the audit trail).",0,0],
+
+[124,"CRYPTO","Which method is used to make data unreadable to unauthorized users?",
+ ["Encrypt the data.*","Fragment the data.","Add a checksum to the end of the data.","Assign it a username and password."],
+ "Confidentiality comes from encryption alone. Checksums give integrity, credentials give access control at one entry point, and fragmentation gives nothing &mdash; the bytes remain readable.",0,0],
+
+[125,"HOST","Match the tabs of the Windows 10 Task Manager to their functions. (Not all options are used.)",
+ ["Displays resource utilization information for CPU, memory, network, disk, and others &rarr; Performance*",
+  "Allows programs that are running on system startup to be disabled &rarr; Startup*",
+  "Allows for a start, stop or restart of a particular service &rarr; Services*",
+  "Allows for a process to have its affinity set &rarr; Details*"],
+ "Task Manager tabs by scope: Processes/Details for per-process control (including CPU affinity), Performance for aggregate resource graphs, Startup for boot-time programs, Services for service state, Users for per-session usage.",0,"Matching"],
+[126,"GOV","For network systems, which management system addresses the inventory and control of hardware and software configurations?",
+ ["asset management","vulnerability management","risk management","configuration management*"],
+ "Distinguish the four: asset management tracks where devices and software are, configuration management controls what state they are in, vulnerability management finds and fixes weaknesses, risk management weighs impact on the business.",0,0],
+
+[127,"MGMT","Match the common network technology or protocol with the description. (Not all options are used.)",
+ ["uses a hierarchy of authoritative time sources to send time information between devices on the network &rarr; NTP*",
+  "used by attackers to exfiltrate data in traffic disguised as normal client queries &rarr; DNS*",
+  "uses UDP port 514 for logging event messages from network devices and endpoints &rarr; Syslog*",
+  "used by attackers to identify hosts on a network and the structure of the network &rarr; ICMP*",
+  "uses application protocols that are commonly responsible for bringing malware to a host &rarr; (not used)"],
+ "Every ordinary management protocol has a security twin: NTP keeps time but can be corrupted or amplified, DNS resolves names but can tunnel data out, ICMP diagnoses but also maps, syslog centralizes evidence on UDP/514.",0,"Matching"],
+
+[128,"NSM","What are the three core functions provided by the Security Onion? (Choose three.)",
+ ["business continuity planning","full packet capture*","alert analysis*","intrusion detection*","threat containment"],
+ "Security Onion is a monitoring suite, not an enforcement platform: it captures full packets, runs network and host intrusion detection, and gives analysts the tools to triage the resulting alerts. It does not block or contain.",0,"Choose three"],
+
+[129,"SVC","In NAT terms, what address type refers to the globally routable IPv4 address of a destination host on the Internet?",
+ ["outside global*","inside global","outside local","inside local"],
+ "NAT terms combine two axes: inside/outside is which side of the NAT the host lives on, local/global is which address space you are viewing it from. A public host on the Internet seen from anywhere is outside global.",0,0],
+
+[130,"ETH","Which two fields or features does Ethernet examine to determine if a received frame is passed to the data link layer or discarded by the NIC? (Choose two.)",
+ ["CEF","source MAC address","minimum frame size*","auto-MDIX","Frame Check Sequence*"],
+ "A NIC validates a frame before accepting it: at least 64 bytes (anything smaller is a runt/collision fragment) and an FCS that matches the recalculated CRC. The source MAC is not part of the accept decision.",0,"Choose two"],
+
+[131,"IR","Which type of data would be considered an example of volatile data?",
+ ["web browser cache","memory registers*","log files","temp files"],
+ "Volatile data disappears when power is lost, so the order of volatility drives evidence collection: CPU registers and cache first, then RAM and network state, then disk-based artefacts such as temp files and logs.",0,0],
+
+[132,"IR","What is the main purpose of exploitations by a threat actor through the weapon delivered to a target during the Cyber Kill Chain exploitation phase?",
+ ["Send a message back to a CnC controlled by the threat actor.",
+  "Break the vulnerability and gain control of the target.*",
+  "Establish a back door into the system."],
+ "Exploitation is the moment the delivered weapon triggers the vulnerability and gains execution. Persisting a backdoor is the next phase (installation) and calling home is the one after that (command and control).",0,0],
+
+[133,"ROUTE","Refer to the exhibit. An administrator is trying to troubleshoot connectivity between PC1 and PC2 and uses the tracert command from PC1 to do it. Based on the displayed output, where should the administrator begin troubleshooting?",
+ ["R1*","PC2","SW2","R2","SW1"],
+ "In a traceroute, the last hop that answered is the last known-good point and the fault lies at or beyond the next device. Here only the default gateway replied, so troubleshooting starts at that first router.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nPC1 192.168.1.1 -- SW1 -- R1 === R2 -- SW2 -- PC2 10.1.0.2\n\nC:\\> tracert 10.1.0.2\nTracing route to 10.1.0.2 over a maximum of 30 hops\n  1   2ms   2ms   2ms   192.168.1.254\n  2    *     *     *    Request timed out\n  3    *     *     *    Request timed out\n  4  ^C"],
+
+[134,"SOC","What three security tools does Cisco Talos maintain security incident detection rule sets for? (Choose three.)",
+ ["Snort*","NetStumbler","Socat","SpamCop*","ClamAV*"],
+ "Talos is the Cisco threat-intelligence group and it feeds the detection content for the open-source projects Cisco sponsors: Snort rules (IDS/IPS), ClamAV signatures (antivirus) and SpamCop reputation (email).",0,"Choose three"],
+
+[135,"SEC","Which host-based firewall uses a three-profile approach to configure the firewall functionality?",
+ ["Windows Firewall*","nftables"],
+ "Windows Defender Firewall applies a different rule set per network location profile &mdash; Domain, Private and Public &mdash; so trust follows the network the host is attached to. The Linux firewalls (iptables, nftables, TCP Wrappers) have no such profile concept.",
+ "&#9888; Two distractors were hidden behind an ad block in the source PDF and are not reproduced (nothing invented). The correct answer and explanation (Topic 22.2.1) are intact.",0],
+
+[136,"CRYPTO","When a user visits an online store website that uses HTTPS, the user browser queries the CA for a CRL. What is the purpose of this query?",
+ ["to verify the validity of the digital certificate*",
+  "to request the CA self-signed digital certificate",
+  "to check the length of key used for the digital certificate",
+  "to negotiate the best encryption to use"],
+ "A certificate can be valid by date and signature yet still be revoked, so the client checks revocation status via CRL or OCSP before trusting it. Cipher choice is negotiated in the TLS handshake, not with the CA.",0,0],
+
+[137,"GOV","Which step in the Vulnerability Management Life Cycle determines a baseline risk profile to eliminate risks based on asset criticality, vulnerability threat, and asset classification?",
+ ["discover","assess*","prioritize assets","verify"],
+ "The lifecycle runs discover, prioritize assets, assess, report, remediate, verify. Assess is the step that combines asset criticality, classification and threat into a baseline risk profile.",0,0],
+
+[138,"GOV","Which management system implements systems that track the location and configuration of networked devices and software across an enterprise?",
+ ["asset management*","vulnerability management","risk management","configuration management"],
+ "Asset management answers what do we own and where is it; configuration management answers what state is it in. Every other security process depends on an accurate asset inventory.",0,0],
+
+[139,"ALERT","A network administrator is reviewing server alerts because of reports of network slowness. The administrator confirms that an alert was an actual security incident. What is the security alert classification of this type of scenario?",
+ ["false negative","true positive*","true negative","false positive"],
+ "Two axes: was the alert raised, and was there really an incident. Alert plus incident = true positive; alert without incident = false positive; no alert with an incident = false negative (the dangerous one); no alert, no incident = true negative.",0,0],
+
+[140,"SVC","Which application layer protocol is used to provide file-sharing and print services to Microsoft applications?",
+ ["SMTP","HTTP","SMB*","DHCP"],
+ "SMB is the Microsoft file and printer sharing protocol (Samba is the Linux implementation). Its wide exposure makes it a favourite target and a common lateral-movement channel.",0,0],
+
+[141,"SEC","Which device in a layered defense-in-depth approach denies connections initiated from untrusted networks to internal networks, but allows internal users within an organization to connect to untrusted networks?",
+ ["access layer switch","firewall*","internal router","IPS"],
+ "A stateful firewall tracks sessions started from inside and permits their return traffic, while dropping anything initiated from outside. That asymmetry &mdash; outbound allowed, inbound denied &mdash; is the defining firewall behaviour.",0,0],
+
+[142,"ETH","What are two potential network problems that can result from ARP operation? (Choose two.)",
+ ["Large numbers of ARP request broadcasts could cause the host MAC address table to overflow and prevent the host from communicating on the network.",
+  "On large networks with low bandwidth, multiple ARP broadcasts could cause data communication delays.*",
+  "Network attackers could manipulate MAC address and IP address mappings in ARP messages with the intent of intercepting network traffic.*",
+  "Multiple ARP replies result in the switch MAC address table containing entries that match the MAC addresses of hosts that are connected to the relevant switch port.",
+  "Manually configuring static ARP associations could facilitate ARP poisoning or MAC address spoofing."],
+ "ARP has no authentication, so its two real risks are performance (broadcast load on large, low-bandwidth segments) and spoofing (forged mappings enabling MiTM). Static entries prevent poisoning rather than cause it, and normal MAC learning is not a problem.",0,"Choose two"],
+
+[143,"NSM","Which three procedures in Sguil are provided to security analysts to address alerts? (Choose three.)",
+ ["Escalate an uncertain alert.*","Correlate similar alerts into a single line.","Categorize true positives.*",
+  "Pivot to other information sources and tools.","Construct queries using Query Builder.","Expire false positives.*"],
+ "Alert triage has three outcomes: confirmed incident (categorize as true positive), confirmed benign (expire the false positive), or unsure (escalate to a higher tier). Everything else is investigation, not disposition.",0,"Choose three"],
+
+[144,"SOC","Match the SOC metric with the description. (Not all options apply.)",
+ ["The average time that it takes for the SOC personnel to identify that valid security incidents have occurred in the network. &rarr; MTTD*",
+  "The time required to stop the incident from causing further damage to systems or data. &rarr; MTTC*",
+  "The average time that it takes to stop and remediate a security incident. &rarr; MTTR*",
+  "The average length of time that threat actors have access to a network before they are detected and their access is stopped. &rarr; (not used &mdash; dwell time)"],
+ "SOC metrics follow the incident timeline: detect (MTTD), contain (MTTC), fully resolve (MTTR), with dwell time measuring how long the attacker had access. Lower is better for all four.",0,"Matching"],
+
+[145,"MGMT","Which two services are provided by the NetFlow tool? (Choose two.)",
+ ["QoS configuration","usage-based network billing*","log analysis","network monitoring*"],
+ "NetFlow accounts for traffic, so it feeds anything that needs to know who sent how much to whom: billing, capacity planning, monitoring and DoS detection. It configures nothing and reads no logs.",0,"Choose two"],
+
+[146,"SEC","An administrator discovers that a user is accessing a newly established website that may be detrimental to company security. What action should the administrator take first in terms of the security policy?",
+ ["Ask the user to stop immediately and inform the user that this constitutes grounds for dismissal.",
+  "Create a firewall rule blocking the respective website.",
+  "Revise the AUP immediately and get all users to sign the updated AUP.*",
+  "Immediately suspend the network privileges of the user."],
+ "Enforcement has to rest on a written rule: if the acceptable use policy does not yet cover the behaviour, you cannot discipline or reasonably block on it. Update the policy first, then enforce technically.",
+ "&#9888; The question asks specifically <i>in terms of the security policy</i>, which is why the policy answer beats the technical one. Operationally you would usually block the site as well.",0],
+
+[147,"SVC","Which two tasks can be performed by a local DNS server? (Choose two.)",
+ ["allowing data transfer between two network devices","retrieving email messages","providing IP addresses to local hosts",
+  "forwarding name resolution requests between servers*","mapping name-to-IP addresses for internal hosts*"],
+ "DNS does one job in two directions: resolve names it is authoritative for, and forward the queries it cannot answer to other servers. Handing out IP addresses is DHCP and moving files or mail is FTP/IMAP.",0,"Choose two"],
+
+[148,"NSM","Which type of event is logged in Cisco Next-Generation IPS devices (NGIPS) using FirePOWER Services when changes have been detected in the monitored network?",
+ ["intrusion","connection","host or endpoint","network discovery*"],
+ "NGIPS event classes map to what changed: intrusion events for rule matches, connection events for sessions, host events for endpoint attributes, and network discovery events for changes in the map of hosts, OSes and services.",0,0],
+
+[149,"IR","Which two actions should be taken during the preparation phase of the incident response life cycle defined by NIST? (Choose two.)",
+ ["Acquire and deploy the tools that are needed to investigate incidents.*",
+  "Detect all the incidents that occurred.",
+  "Meet with all involved parties to discuss the incident that took place.",
+  "Create and train the CSIRT.*",
+  "Fully analyze the incident."],
+ "Preparation is everything done before an incident: staffing and training the CSIRT, tooling, plans and communication paths. Detection, analysis and lessons-learned meetings belong to later phases.",0,"Choose two"],
+
+[150,"IPADDR","What subnet mask is represented by the slash notation /20?",
+ ["255.255.255.0","255.255.255.248","255.255.255.192","255.255.240.0*"],
+ "Slash notation counts the leading 1 bits. /20 is 11111111.11111111.11110000.00000000, so the third octet is 240 and the mask is 255.255.240.0. Any mask ending 255.255.255.x is /24 or longer.",0,0],
+
+[151,"ALERT","What is the benefit of converting log file data into a common schema?",
+ ["creates a data model based on fields of data from a source",
+  "creates a set of regex-based field extractions",
+  "allows the implementation of partial normalization and inspection",
+  "allows easy processing and analysis of datasets*"],
+ "Normalization maps different vendors field names onto one structure so a single query can search everything and events can be correlated across sources. Without it, each log type needs its own parser and query.",0,0],
+
+[152,"SOC","Which Cisco sponsored certification is designed to provide the first step in acquiring the knowledge and skills to work with a SOC team?",
+ ["CCNA CyberOps Associate*","CCNA Cloud","CCNA Security","CCNA Data Center"],
+ "The CyberOps Associate track is the entry-level, SOC-analyst-focused certification; the other CCNA tracks target infrastructure specialities rather than security operations.",0,0],
+
+[153,"IPADDR","Which three IP addresses are considered private addresses? (Choose three.)",
+ ["198.168.6.18","192.168.5.29*","172.68.83.35","128.37.255.6","172.17.254.4*","10.234.2.1*"],
+ "RFC 1918 private ranges are 10.0.0.0/8, 172.16.0.0&ndash;172.31.255.255 and 192.168.0.0/16. Watch the near-misses: 198.168.x.x is not 192.168.x.x, and 172.68.x.x falls outside 172.16&ndash;172.31.",0,"Choose three"],
+
+[154,"GOV","When establishing a network profile for an organization, which element describes the time between the establishment of a data flow and its termination?",
+ ["bandwidth of the Internet connection","routing protocol convergence","session duration*","total throughput"],
+ "A network profile baselines normal: total throughput (how much), session duration (how long), ports used (what services), and critical asset address space (what matters). Deviations from those numbers are the alerting trigger.",0,0],
+
+[155,"WLAN","What are the stages that a wireless device completes before it can communicate over a wireless LAN network?",
+ ["discover a wireless AP, authenticate with the AP, associate with the AP*",
+  "discover a wireless AP, associate with the AP, authorize with the AP",
+  "discover a wireless AP, associate with the AP, authenticate with the AP",
+  "discover a wireless AP, authorize with the AP, associate with the AP"],
+ "The order is always discover, authenticate, associate &mdash; identity is proven before the client is bound to the AP, exactly as in wired 802.1X. Association never precedes authentication.",0,0],
+
+[156,"ATT","Match the correct sequence of steps typically taken by a threat actor carrying out a domain shadowing attack.",
+ ["Step 1 &rarr; The website is compromised*","Step 2 &rarr; HTTP 302 cushioning is used*","Step 3 &rarr; Domain shadowing is used*",
+  "Step 4 &rarr; An exploit kit landing page is created*","Step 5 &rarr; Malware is spread through its payload*"],
+ "The chain moves the victim quietly toward the payload: compromise a trusted site, redirect through 302 cushioning, hop across subdomains created under stolen registrant accounts, land on an exploit kit page, then deliver malware.",0,"Ordering"],
+
+[157,"CRYPTO","What are two properties of a cryptographic hash function? (Choose two.)",
+ ["Complex inputs will produce complex hashes.",
+  "The output is a fixed length.*",
+  "The hash function is one way and irreversible.*",
+  "Hash functions can be duplicated for authentication purposes.",
+  "The input for a particular hash algorithm has to have a fixed size."],
+ "A cryptographic hash takes any-length input, produces fixed-length output, is easy to compute, infeasible to reverse, and collision resistant. Input length and content complexity never change the digest size.",0,"Choose two"],
+
+[158,"ETH","Refer to the exhibit. The switches have a default configuration. Host A needs to communicate with host D, but host A does not have the MAC address for the default gateway. Which network devices will receive the ARP request sent by host A?",
+ ["only host D","only hosts A, B, C, and D","only hosts B and C","only hosts B, C, and router R1*","only hosts A, B, and C","only router R1"],
+ "An ARP request is a Layer 2 broadcast, so it reaches every device in the same broadcast domain except the sender &mdash; and stops at the router, which never forwards broadcasts to another network.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nR1 === R2\n |         |\nSwitch    Switch\n |  |  |     |\n A  B  C     D\nHosts A, B and C hang off the switch attached to R1; host D hangs off the switch attached to R2. Switches are at default configuration (one VLAN)."],
+
+[159,"IR","Which type of evidence cannot prove an IT security fact on its own?",
+ ["hearsay","corroborative","best","indirect*"],
+ "Indirect (circumstantial) evidence only supports a hypothesis when combined with other facts; best evidence is the original, unaltered item; corroborative evidence reinforces something already established.",0,0],
+
+[160,"ALERT","What is a characteristic of a probabilistic analysis in an alert evaluation?",
+ ["each event an inevitable result of antecedent causes",
+  "precise methods that yield the same result every time by relying on predefined conditions",
+  "random variables that create difficulty in knowing the outcome of any given event with certainty*",
+  "analysis of applications that conform to application/networking standards"],
+ "Deterministic analysis assumes a fixed sequence and gives the same answer every time; probabilistic analysis handles randomness and returns a likelihood, which is what alert scoring and risk estimation depend on.",0,0],
+[161,"HOST","Why would a network administrator choose Linux as an operating system in the Security Operations Center (SOC)?",
+ ["It is easier to use than other server operating systems.",
+  "It can be acquired at no charge.*",
+  "More network applications are created for this environment.",
+  "The administrator has control over specific security functions, but not standard applications."],
+ "Linux is open source, so it costs nothing to acquire and can be modified and rebuilt for the task &mdash; which is why purpose-built analyst distributions exist. Open source, not ease of use, is the reason.",0,0],
+
+[162,"HOST","A technician needs to verify file permissions on a specific Linux file. Which command would the technician use?",
+ ["cd","sudo","ls -l*","vi"],
+ "<code>ls -l</code> prints the long listing: permission triplets for owner, group and others plus ownership. Read those ten characters to answer any Linux permissions question.",0,0],
+
+[163,"SVC","Which two protocols may devices use in the application process that sends email? (Choose two.)",
+ ["HTTP","POP","POP3","DNS*","IMAP","SMTP*"],
+ "Sending mail needs SMTP to transfer the message and DNS to look up the MX record of the destination domain. POP, POP3 and IMAP only retrieve mail and play no part in the sending process.",0,
+ "Choose two"],
+
+[164,"HOST","Which file system type was specifically created for optical disk media?",
+ ["ext3","HFS+","CDFS*","ext2"],
+ "Match file systems to media and platform: CDFS/ISO 9660 for optical discs, ext2/ext3/ext4 for Linux disks, HFS+ and APFS for macOS, NTFS and FAT/exFAT for Windows and removable flash.",0,0],
+
+[165,"ATT","A piece of malware has gained access to a workstation and issued a DNS lookup query to a CnC server. What is the purpose of this attack?",
+ ["to check the domain name of the workstation","to send stolen sensitive data with encoding*",
+  "to masquerade the IP address of the workstation","to request a change of the IP address"],
+ "DNS tunnelling abuses a protocol that is always permitted: the stolen data is base64/hex encoded into the query name, so exfiltration looks like ordinary name resolution and slips past basic DLP.",0,0],
+
+[166,"NSM","Refer to the exhibit. Which field in the Sguil event window indicates the number of times an event is detected for the same source and destination IP address?",
+ ["CNT*","Pr","ST","AlertID"],
+ "In Sguil the CNT column is the correlation count for identical source/destination pairs, so a high value points to repetition &mdash; a noisy signature or a sustained attack &mdash; and is the fastest way to prioritise.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nSguil RealTime Events columns: ST | CNT | Sensor | Alert ID | Date/Time | Src IP | SPort | Dst IP | DPort | Pr | Event Message\nSample rows include CNT values of 8, 232, 6, 3, 16, 51, 106 and 1 against sensors seconion-ossec / -eth1-1 / -eth2-1, with OSSEC integrity-check and GPL ICMP_INFO PING / ET EXPLOIT VSFTPD messages."],
+
+[167,"ROUTE","Refer to the exhibit. The IP address of which device interface should be used as the default gateway setting of host H1?",
+ ["R1: G0/0*","R2: S0/0/0","R2: S0/0/1","R1: S0/0/0"],
+ "The default gateway is always the router interface on the same subnet as the host &mdash; the LAN-facing interface of its local router. A WAN or remote-router interface is unreachable without routing already working.",0,"Exhibit",
+ "EXHIBIT (transcribed)\n                       ISP\n                        |\n        S0/0/1 --- R2 --- S0/1/0\n         |                   |\n R1 (G0/0, G0/1, S0/0/0)   R3 (G0/0, S0/0/0)\n   |        |                 |\n switch   switch           switch\n   |\n  H1  (H1 is on the R1 G0/0 LAN)"],
+
+[168,"IR","According to information outlined by the Cyber Kill Chain, which two approaches can help identify reconnaissance threats? (Choose two.)",
+ ["Analyze web log alerts and historical search data.*",
+  "Audit endpoints to forensically determine origin of exploit.",
+  "Build playbooks for detecting browser behavior.*",
+  "Conduct full malware analysis.",
+  "Understand targeted servers, people, and data available to attack."],
+ "Reconnaissance leaves traces in what the attacker looked at, so defence at this phase means mining web and search logs and codifying the patterns into playbooks. Endpoint forensics and malware analysis apply after the intrusion.",0,"Choose two"],
+
+[169,"IPV6","Which two ICMPv6 messages are used during the Ethernet MAC address resolution process? (Choose two.)",
+ ["router solicitation","router advertisement","neighbor solicitation*","neighbor advertisement*","echo request"],
+ "IPv6 has no ARP: Neighbor Discovery uses Neighbor Solicitation and Neighbor Advertisement over ICMPv6 for address resolution and duplicate detection, while RS/RA handle routers and prefixes.",0,"Choose two"],
+
+[170,"OSI","What best describes the destination IPv4 address that is used by multicasting?",
+ ["a single IP multicast address that is used by all destinations in a group*",
+  "an IP address that is unique for each destination in the group",
+  "a group address that shares the last 23 bits with the source IPv4 address",
+  "a 48 bit address that is determined by the number of members in the multicast group"],
+ "Multicast sends one copy to a group address in the Class D range 224.0.0.0&ndash;239.255.255.255; every member listens to that single address. Unicast is one-to-one and broadcast reaches all hosts on the subnet.",0,0],
+
+[171,"SEC","What is the result of using security devices that include HTTPS decryption and inspection services?",
+ ["The devices require continuous monitoring and fine tuning.",
+  "The devices introduce processing delays and privacy issues.*",
+  "The devices must have preconfigured usernames and passwords for all users.",
+  "Monthly service contracts with reputable web filtering sites can be costly."],
+ "Breaking and re-encrypting TLS costs CPU at every session and exposes content the user believed was private &mdash; the classic visibility-versus-privacy and performance trade-off in any inspection design.",0,0],
+
+[172,"SVC","What is a disadvantage of DDNS?",
+ ["DDNS is considered malignant and must be monitored by security software.",
+  "DDNS is unable to co-exist on a network subdomain that also uses DNS.",
+  "Using free DDNS services, threat actors can quickly and easily generate subdomains and change DNS records.*",
+  "Using DDNS, a change in an existing IP address mapping can take over 24 hours and could result in a disruption of connectivity."],
+ "Dynamic DNS updates records in seconds, which is exactly what command-and-control infrastructure needs to outrun blocklists. The weakness is the speed and anonymity of record changes, not the technology being malicious.",0,0],
+
+[173,"SEC","Match the network-based antimalware solution to the function. (Not all options are used.)",
+ ["provides filtering of SPAM and potentially malicious emails before they reach the endpoint &rarr; email security appliance*",
+  "provides filtering of websites and blacklisting before they reach the endpoint &rarr; web security appliance*",
+  "permits only authorized and compliant systems to connect to the network &rarr; network admission control*",
+  "provides endpoint protection from viruses and malware &rarr; advanced malware protection*",
+  "provides dynamic IP addresses to authenticated endpoints &rarr; (not used &mdash; that is DHCP)"],
+ "Each control sits on a different path into the network: mail (ESA), web (WSA), device admission (NAC) and the endpoint itself (AMP). Layering them is what defence in depth means for malware.",0,"Matching"],
+
+[174,"IR","A threat actor has identified the potential vulnerability of the web server of an organization and is building an attack. What will the threat actor possibly do to build an attack weapon?",
+ ["Obtain an automated tool in order to deliver the malware payload through the vulnerability.*",
+  "Install a webshell on the web server for persistent access.",
+  "Create a point of persistence by adding services.",
+  "Collect credentials of the web server developers and administrators."],
+ "Weaponization is building or acquiring the deliverable exploit, before anything touches the target. Webshells and added services are installation-phase persistence, and credential collection is reconnaissance.",0,0],
+
+[175,"NSM","Which tool included in the Security Onion is a series of software plugins that send different types of data to the Elasticsearch data stores?",
+ ["OSSEC","Curator","Beats*","ElastAlert"],
+ "Beats are the shipper agents that feed Elasticsearch. Same concept as item 40 &mdash; the source bank asks it twice, so know the whole Elastic pipeline: Beats ship, Logstash normalizes, Elasticsearch indexes, Kibana visualizes.",0,0],
+
+[176,"ALERT","Which term is used to describe the process of identifying the NSM-related data to be gathered?",
+ ["data archiving","data normalization","data reduction*","data retention"],
+ "Data reduction decides up front what is worth collecting and storing so analysts are not drowned in unusable volume. Normalization reformats what you kept, retention sets how long, archiving is where it goes afterwards.",0,0],
+
+[177,"ALERT","Match the alert classification with the description.",
+ ["malicious traffic is correctly identified as a threat &rarr; true positive*",
+  "normal traffic is incorrectly identified as a threat &rarr; false positive*",
+  "malicious traffic is not identified as a threat &rarr; false negative*",
+  "normal traffic is not identified as a threat &rarr; true negative*"],
+ "True/false says whether the sensor was right; positive/negative says whether it alerted. False negatives are the dangerous class (missed attacks); false positives are the expensive class (wasted analyst time).",0,"Matching"],
+
+[178,"IR","According to NIST, which step in the digital forensics process involves preparing and presenting information that resulted from scrutinizing data?",
+ ["examination","collection","reporting*","analysis"],
+ "The NIST forensics sequence is collection, examination, analysis, reporting. Reporting is the final step: presenting conclusions impartially, with alternative explanations where appropriate.",0,0],
+
+[179,"NSM","Refer to the exhibit. A cybersecurity analyst is using Sguil to verify security alerts. How is the current view sorted?",
+ ["by sensor number","by source IP","by date/time","by frequency*"],
+ "Sguil sorts on whichever column carries the arrow indicator; here it is CNT, the correlation count, so the busiest signatures rise to the top. Sorting by frequency is the normal starting point for triage.",0,"Exhibit",
+ "EXHIBIT (transcribed)\nSGUIL-0.9.0 connected to localhost, UserName: analyst, UserID 2, RealTime Events tab.\nColumns: ST | CNT (descending arrow) | Sensor | Alert ID | Date/Time | Src IP | SPort | Dst IP | DPort | Pr | Event Message\nTop rows show CNT 1213, 1210, 1210, 1033, 44, 24, 19, 8, 8, 8 with ET SCAN Nmap Scripting Engine, GPL ICMP_INFO PING *NIX, OSSEC integrity checksum and ET WEB_SERVER ColdFusion messages."],
+
+[180,"HOST","Which two options are window managers for Linux? (Choose two.)",
+ ["File Explorer","Kali","Gnome*","PenTesting","KDE*"],
+ "X provides the framework and the window manager or desktop environment provides the GUI &mdash; Gnome, KDE, Cinnamon, Xfce. Kali is a distribution, not a window manager, and File Explorer is Windows.",0,"Choose two"],
+
+[181,"WLAN","What are the two methods that a wireless NIC can use to discover an AP? (Choose two.)",
+ ["transmitting a probe request*","sending an ARP request broadcast","initiating a three-way handshake",
+  "receiving a broadcast beacon frame*","sending a multicast frame"],
+ "Two discovery modes: passive, where the client listens for the AP beacon carrying the SSID, and active, where the client is preconfigured with the SSID and transmits probe requests. Hiding the SSID only removes the passive option.",0,"Choose two"],
+
+[182,"TRANS","A client device has initiated a secure HTTP request to a web browser. Which well-known port address number is associated with the destination address?",
+ ["110","80","443*","404"],
+ "Well-known server ports to memorize: 80 HTTP, 443 HTTPS, 25 SMTP, 110 POP3, 143 IMAP, 53 DNS, 22 SSH, 23 Telnet, 21/20 FTP, 69 TFTP. 404 is an HTTP status code, not a port.",0,0],
+
+[183,"IR","Which term describes evidence that is in its original state?",
+ ["Corroborating evidence","Best evidence*","Indirect evidence","Direct evidence"],
+ "Best evidence is the unaltered original (the seized drive, the untouched image) and carries the most weight. Corroborating evidence supports an existing proposition and indirect evidence only works in combination with other facts.",0,0],
+
+[184,"SVC","Which three statements describe a DHCP Discover message? (Choose three.)",
+ ["The source MAC address is 48 ones (FF-FF-FF-FF-FF-FF).",
+  "The destination IP address is 255.255.255.255.*",
+  "The message comes from a server offering an IP address.",
+  "The message comes from a client seeking an IP address.*",
+  "All hosts receive the message, but only a DHCP server replies.*",
+  "Only the DHCP server receives the message."],
+ "DHCPDISCOVER is a client broadcast: destination IP 255.255.255.255 and destination MAC all-Fs, with the client own MAC as the source. Every host on the segment sees it but only a DHCP server answers, with a unicast DHCPOFFER.",0,"Choose three"],
+
+[185,"SVC","Refer to the exhibit. The PC is sending a packet to the Server on the remote network. Router R1 is performing NAT overload. From the perspective of the PC, match the NAT address type with the correct IP address. (Not all options are used.)",
+ ["Outside global &rarr; 203.0.113.5*","Inside global &rarr; 192.0.2.1*","Inside local &rarr; 10.130.5.76*",
+  "203.0.113.14, 192.0.2.2, 10.130.5.1 &rarr; (not used)"],
+ "Work it out from the PC point of view: inside local is the private source address, inside global is the public address it is translated to (the NAT router outside interface), outside global is the real public address of the destination.",0,"Matching + Exhibit",
+ "EXHIBIT (transcribed)\nPC 10.130.5.76/24 --- switch --- R1 (LAN 10.130.5.1/24, S0/0/0 192.0.2.1/30)\n   === cloud === S0/0/1 192.0.2.2/30 on the far router (LAN 203.0.113.14/28)\n   --- switch --- Server 203.0.113.5/28\nR1 is performing NAT overload (PAT)."],
+
+[186,"GOV","Which step in the Vulnerability Management Life Cycle categorizes assets into groups or business units, and assigns a business value to asset groups based on their criticality to business operations?",
+ ["remediate","prioritize assets*","report","assess"],
+ "Prioritize assets is where business value enters the process, and it is what makes later remediation risk-based rather than first-come-first-served. Assess builds the risk profile; report measures it against policy.",0,0],
+
+[187,"TRANS","A client application needs to terminate a TCP communication session with a server. Place the termination process steps in the order that they will occur. (Not all options are used.)",
+ ["step 1 &rarr; client sends FIN*","step 2 &rarr; server sends ACK*","step 3 &rarr; server sends FIN*","step 4 &rarr; client sends ACK*"],
+ "Each direction of a TCP connection is closed separately: the initiator sends FIN and gets an ACK, then the peer sends its own FIN and gets an ACK. Four segments, always FIN/ACK pairs.",0,"Ordering"],
+
+[188,"IR","Match the attack vector with the description.",
+ ["initiated through an email attachment &rarr; email*",
+  "initiated from external storage &rarr; media*",
+  "uses brute force against devices or services &rarr; attrition*",
+  "initiated from a website application &rarr; web*"],
+ "NIST attack vectors classify the initial access route: web, email, media, attrition (brute force), impersonation, loss or theft, improper usage. Vector determines which control failed.",0,"Matching"],
+
+[189,"GOV","Match the security management function with the description.",
+ ["the comprehensive analysis of impacts of attacks on core company assets and functioning &rarr; risk management*",
+  "the inventory and control of hardware and software configurations of systems &rarr; configuration management*",
+  "the implementation of systems that track the location and configuration of networked devices and software across an enterprise &rarr; asset management*",
+  "the security practice designed to proactively prevent the exploitation of IT vulnerabilities that exist within an organization &rarr; vulnerability management*"],
+ "Four management functions, four questions: what do we own and where (asset), what state is it in (configuration), what weaknesses does it have (vulnerability), what would it cost us if attacked (risk).",0,"Matching"],
+
+[190,"OSI","What are two functions that are provided by the network layer? (Choose two.)",
+ ["directing data packets to destination hosts on other networks*",
+  "placing data on the network medium",
+  "carrying data between processes that are running on source and destination hosts",
+  "providing dedicated end-to-end connections",
+  "providing end devices with a unique network identifier*"],
+ "The network layer does addressing and routing: unique logical identifiers plus best-effort delivery to other networks. Process-to-process delivery and connection state are transport layer; putting bits on the media is Layer 1/2.",0,"Choose two"],
+
+[191,"IR","Match the phase in the NIST incident response life cycle to the action.",
+ ["Document incident handling. &rarr; post-incident activities*",
+  "Conduct CSIRT response training. &rarr; preparation*",
+  "Identify, analyze, and validate an incident. &rarr; detection and analysis*",
+  "Implement procedures to contain the threat. &rarr; containment, eradication, and recovery*"],
+ "The NIST cycle has four phases: preparation (before), detection and analysis (is it real), containment/eradication/recovery (stop it and restore), post-incident activity (lessons learned feeding back into preparation).",0,"Matching"],
+
+[192,"HOST","Match the Linux CLI commands to their function. (Not all options are used.)",
+ ["changes the current directory &rarr; cd*","removes files &rarr; rm*","creates a directory under the current directory &rarr; mkdir*",
+  "displays the files inside a directory &rarr; ls*","displays the documentation for a specific command &rarr; man*",
+  "copies files from source to destination &rarr; (not used &mdash; cp)","moves files to a different directory &rarr; (not used &mdash; mv)"],
+ "Core file-system verbs: ls list, cd change, mkdir create, rm remove, cp copy, mv move or rename, man read the documentation. Everything else in the shell builds on these.",0,"Matching"],
+];
+
+/* ---------- build ---------- */
+const out = document.getElementById("out");
+const chipsEl = document.getElementById("chips");
+const tocEl = document.getElementById("tocList");
+const countEl = document.getElementById("count");
+const qEl = document.getElementById("q");
+
+const byTopic = {};
+ORDER.forEach(t => byTopic[t] = []);
+DATA.forEach(r => { if (byTopic[r[1]]) byTopic[r[1]].push(r); else (byTopic[r[1]] = [r]); });
+ORDER.forEach(t => byTopic[t].sort((a,b) => a[0]-b[0]));
+
+function esc(s){ return String(s).replace(/&(?![a-zA-Z#0-9]+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+let html = "";
+ORDER.forEach(key => {
+  const rows = byTopic[key];
+  if (!rows || !rows.length) return;
+  html += '<section data-topic="' + key + '">';
+  html += '<h2 class="topic" id="t-' + key + '">' + TOPICS[key] + ' <span class="n">(' + rows.length + ')</span></h2>';
+  rows.forEach(r => {
+    const num = r[0], q = r[2], opts = r[3], why = r[4], note = r[5], meta = r[6], exhibit = r[7];
+    html += '<article class="card" data-topic="' + key + '" data-num="' + num + '">';
+    html += '<div class="qhead"><span class="num">Q' + num + '</span>';
+    html += '<span class="tag">' + TOPICS[key] + '</span>';
+    if (meta) html += '<span class="meta">' + meta + '</span>';
+    html += '</div>';
+    html += '<div class="qtext">' + q + '</div>';
+    if (exhibit) html += '<div class="exhibit">' + esc(exhibit) + '</div>';
+    html += '<ul class="opts">';
+    opts.forEach(o => {
+      const ok = /\*$/.test(o);
+      html += '<li class="' + (ok ? "correct" : "") + '">' + (ok ? o.slice(0,-1) : o) + '</li>';
+    });
+    html += '</ul>';
+    html += '<div class="why"><b>Why:</b> ' + why + '</div>';
+    if (note) html += '<div class="note">' + note + '</div>';
+    html += '<button class="reveal" type="button">Reveal answer</button>';
+    html += '</article>';
+  });
+  html += '</section>';
+});
+out.innerHTML = html;
+
+/* store pristine copy of every searchable block for highlight/restore */
+const cards = Array.from(out.querySelectorAll(".card"));
+const pristine = new Map();
+cards.forEach(c => pristine.set(c, c.innerHTML));
+const haystack = new Map();
+cards.forEach(c => haystack.set(c, (c.textContent + " " + c.dataset.topic).toLowerCase().replace(/\s+/g," ")));
+
+/* ---------- chips + toc ---------- */
+let activeTopic = "ALL";
+let chipEls = [];
+function makeChip(label, key){
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = label; b.dataset.key = key;
+  if (key === "ALL") b.classList.add("on");
+  b.addEventListener("click", () => { activeTopic = key; chipEls.forEach(x => x.classList.toggle("on", x.dataset.key === key)); apply(); });
+  chipsEl.appendChild(b); chipEls.push(b);
+}
+makeChip("All (" + cards.length + ")", "ALL");
+ORDER.forEach(k => {
+  if (!byTopic[k] || !byTopic[k].length) return;
+  const short = TOPICS[k].split("—")[0].trim();
+  makeChip(short + " · " + byTopic[k].length, k);
+});
+
+ORDER.forEach(k => {
+  if (!byTopic[k] || !byTopic[k].length) return;
+  const li = document.createElement("li");
+  li.innerHTML = '<a href="#t-' + k + '">' + TOPICS[k] + '</a> <span class="n">(' + byTopic[k].length + ')</span>';
+  tocEl.appendChild(li);
+});
+
+/* ---------- search ---------- */
+function tokens(str){
+  return str.toLowerCase().trim().split(/\s+/).filter(Boolean);
+}
+function rxEsc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
+
+function highlight(card, toks){
+  if (!toks.length) return;
+  const rx = new RegExp("(" + toks.map(rxEsc).join("|") + ")","gi");
+  const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null);
+  const targets = [];
+  let n;
+  while ((n = walker.nextNode())) {
+    if (n.nodeValue && rx.test(n.nodeValue)) targets.push(n);
+    rx.lastIndex = 0;
+  }
+  targets.forEach(node => {
+    const frag = document.createElement("span");
+    frag.innerHTML = esc(node.nodeValue).replace(rx, "<mark>$1</mark>");
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+function apply(){
+  const toks = tokens(qEl.value);
+  let shown = 0;
+  cards.forEach(c => {
+    const topicOK = (activeTopic === "ALL") || (c.dataset.topic === activeTopic);
+    const hay = haystack.get(c);
+    const textOK = toks.every(t => hay.indexOf(t) !== -1);
+    const vis = topicOK && textOK;
+    c.style.display = vis ? "" : "none";
+    if (vis) shown++;
+    /* restore then re-highlight only visible cards */
+    c.innerHTML = pristine.get(c);
+    if (vis && toks.length) highlight(c, toks);
+  });
+  /* hide empty topic sections */
+  out.querySelectorAll("section").forEach(s => {
+    const any = Array.from(s.querySelectorAll(".card")).some(c => c.style.display !== "none");
+    s.style.display = any ? "" : "none";
+  });
+  countEl.textContent = "Showing " + shown + " of " + cards.length + " questions";
+  if (!shown) {
+    if (!document.getElementById("noneMsg")) {
+      const d = document.createElement("p");
+      d.id = "noneMsg"; d.className = "none"; d.textContent = "No questions match that search.";
+      out.appendChild(d);
+    }
+  } else {
+    const d = document.getElementById("noneMsg");
+    if (d) d.remove();
+  }
+}
+
+qEl.addEventListener("input", apply);
+qEl.addEventListener("keydown", e => { if (e.key === "Escape") { qEl.value = ""; apply(); } });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && qEl.value) { qEl.value = ""; apply(); }
+});
+
+/* ---------- answers toggle + per-question reveal ---------- */
+const tBtn = document.getElementById("toggleAns");
+tBtn.addEventListener("click", () => {
+  const hiding = !document.body.classList.contains("hideans");
+  document.body.classList.toggle("hideans", hiding);
+  tBtn.textContent = hiding ? "Show answers" : "Hide answers";
+  tBtn.classList.toggle("on", hiding);
+  if (!hiding) cards.forEach(c => c.classList.remove("revealed"));
+});
+out.addEventListener("click", e => {
+  const b = e.target.closest(".reveal");
+  if (!b) return;
+  const card = b.closest(".card");
+  card.classList.toggle("revealed");
+  b.textContent = card.classList.contains("revealed") ? "Hide answer" : "Reveal answer";
+});
+
+/* ---------- index open/close button ---------- */
+const toc = document.getElementById("toc");
+const ex = document.getElementById("expand");
+function syncToc(){ ex.textContent = toc.open ? "Close index" : "Open index"; }
+ex.addEventListener("click", () => { toc.open = !toc.open; syncToc(); });
+toc.addEventListener("toggle", syncToc);
+syncToc();
+
+apply();
+</script>
+</body>
+</html>
