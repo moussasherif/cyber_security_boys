@@ -85,6 +85,7 @@ button{font:inherit;font-size:.85rem;color:var(--chipfg);background:var(--chip);
 button:hover{border-color:var(--accent)}
 button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+body.nochips .chips,body.nochips .hint{display:none}
 .count{color:var(--muted);font-size:.85rem;white-space:nowrap}
 .hint{color:var(--muted);font-size:.78rem;margin-top:6px}
 
@@ -152,6 +153,7 @@ body:not(.hideans) .reveal{display:none}
       <input id="q" type="search" placeholder="Search questions, options, explanations, topics…" autocomplete="off" spellcheck="false">
       <span class="count" id="count"></span>
       <button id="toggleAns" type="button">Hide answers</button>
+      <button id="toggleChips" type="button">Hide topics</button>
       <button id="expand" type="button">Open index</button>
     </div>
     <div class="chips" id="chips"></div>
@@ -1369,15 +1371,35 @@ function makeChip(label, key){
   const b = document.createElement("button");
   b.type = "button"; b.textContent = label; b.dataset.key = key;
   if (key === "ALL") b.classList.add("on");
-  b.addEventListener("click", () => { activeTopic = key; chipEls.forEach(x => x.classList.toggle("on", x.dataset.key === key)); apply(); });
+  b.addEventListener("click", () => {
+    activeTopic = key;
+    chipEls.forEach(x => x.classList.toggle("on", x.dataset.key === key));
+    syncChipBtn(); apply();
+  });
   chipsEl.appendChild(b); chipEls.push(b);
 }
+const SHORT = {ALL:"All topics"};
 makeChip("All (" + cards.length + ")", "ALL");
 ORDER.forEach(k => {
   if (!byTopic[k] || !byTopic[k].length) return;
-  const short = TOPICS[k].split("—")[0].trim();
-  makeChip(short + " · " + byTopic[k].length, k);
+  SHORT[k] = TOPICS[k].split("—")[0].trim();
+  makeChip(SHORT[k] + " · " + byTopic[k].length, k);
 });
+
+/* ---------- collapse the topic-chip bar, leaving just the search ---------- */
+const chipBtn = document.getElementById("toggleChips");
+function syncChipBtn(){
+  const hidden = document.body.classList.contains("nochips");
+  chipBtn.textContent = hidden
+    ? (activeTopic === "ALL" ? "Show topics" : "Topic: " + SHORT[activeTopic])
+    : "Hide topics";
+  chipBtn.classList.toggle("on", hidden && activeTopic !== "ALL");
+}
+chipBtn.addEventListener("click", () => {
+  document.body.classList.toggle("nochips");
+  syncChipBtn();
+});
+syncChipBtn();
 
 ORDER.forEach(k => {
   if (!byTopic[k] || !byTopic[k].length) return;
